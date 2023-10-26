@@ -1,10 +1,10 @@
-package br.com.fiap.postech.foodchallenge.domain.model.aggregates
+package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
 
-import br.com.fiap.postech.foodchallenge.domain.model.entities.Product
+import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
 
 data class Order(
     val id: OrderId,
-    val customerId: CustomerId?,
+    val customerId: Long?,
     val items: List<OrderItem>,
     val status: OrderStatus
 ) {

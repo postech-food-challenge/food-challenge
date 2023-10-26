@@ -1,4 +1,4 @@
-package br.com.fiap.postech.foodchallenge.domain.model.entities
+package br.com.fiap.postech.foodchallenge.application.domain.model.entities
 
 data class Product(
     val id: ProductId,
@@ -12,5 +12,5 @@ data class Product(
 data class ProductId(val value: String)
 
 enum class ProductCategory {
-    SNACK, SIDE, DRINK, DESSERT
+    MAIN, SIDE, DRINK, DESSERT
 }
