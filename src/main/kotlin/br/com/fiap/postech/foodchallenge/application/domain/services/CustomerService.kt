@@ -14,4 +14,8 @@ class CustomerService(private val repository: CustomerRepository) {
         return repository.save(customer)
     }
 
+    fun getCustomerByCpf(cpf: String): Customer? {
+        return repository.findByCpf(cpf)
+    }
+
 }
