@@ -1,28 +1,33 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
 
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
+import jakarta.persistence.*
+import jakarta.persistence.EnumType.STRING
+import jakarta.persistence.GenerationType.IDENTITY
 
+@Entity
 data class Order(
-    val id: OrderId,
-    val customerId: Long?,
+    @Id @GeneratedValue(strategy = IDENTITY)
+    val id: Long? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = true)
+    val customer: Customer? = null,
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "order_items", joinColumns = [JoinColumn(name = "order_id")])
     val items: List<OrderItem>,
+
+    @Enumerated(STRING)
     val status: OrderStatus
 ) {
-    fun addItem(item: OrderItem): Order {
-        val updatedItems = items + item
-        return copy(items = updatedItems)
-    }
-
-    fun updateStatus(newStatus: OrderStatus): Order {
-        return copy(status = newStatus)
-    }
 }
 
-data class OrderId(val value: String)
-
-// Value Object?
+@Embeddable
 data class OrderItem(
-    val product: Product,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    val productId: Product,
     val quantity: Int
 )
 
