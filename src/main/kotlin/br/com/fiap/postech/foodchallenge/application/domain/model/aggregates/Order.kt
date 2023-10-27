@@ -1,6 +1,7 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
 
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
+import kotlin.String
 
 data class Order(
     val id: OrderId,
