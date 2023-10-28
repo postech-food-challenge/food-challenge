@@ -8,10 +8,9 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 @Entity
-
 data class Product(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: ProductId?,
+    val id: Long?,
     @field:NotBlank
     val name: String,
     @field:NotBlank
@@ -24,7 +23,15 @@ data class Product(
     val category: ProductCategory
 )
 
-data class ProductId(val value: String)
+fun Product.update(newProduct: Product) : Product =
+    Product(
+        id = id,
+        name = newProduct.name,
+        description = newProduct.description,
+        image = newProduct.image,
+        price = newProduct.price,
+        category = newProduct.category
+    )
 
 enum class ProductCategory {
     MAIN, SIDE, DRINK, DESSERT;
