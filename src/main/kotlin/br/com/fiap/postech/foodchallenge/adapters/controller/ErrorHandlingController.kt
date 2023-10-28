@@ -1,8 +1,10 @@
 package br.com.fiap.postech.foodchallenge.adapters.controller
 
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.CustomerAlreadyRegisteredException
-import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.CONFLICT
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductAlreadyExistsException
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
+import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -13,7 +15,7 @@ class ErrorHandlingController {
 
     @ExceptionHandler(CustomerAlreadyRegisteredException::class)
     fun handleCustomerAlreadyRegistered(exception: CustomerAlreadyRegisteredException): ResponseEntity<String> {
-        return ResponseEntity(exception.message, CONFLICT)
+        return ResponseEntity(exception.message, HttpStatus.CONFLICT)
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
@@ -22,7 +24,21 @@ class ErrorHandlingController {
         ex.bindingResult.fieldErrors.forEach { error ->
             errors[error.field] = error.defaultMessage
         }
-        return ResponseEntity(errors, BAD_REQUEST)
+        return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(ProductNotFoundException::class)
+    fun handleProductNotFound(ex: ProductNotFoundException): ResponseEntity<String>{
+        return  ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(ProductAlreadyExistsException::class)
+    fun handleProductAlreadyExists(ex: ProductAlreadyExistsException): ResponseEntity<String>{
+        return  ResponseEntity(ex.message, HttpStatus.CONFLICT)
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException::class)
+    fun handleInvalidDBRequest(ex: DataIntegrityViolationException): ResponseEntity<String>{
+        return  ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
+    }
 }
