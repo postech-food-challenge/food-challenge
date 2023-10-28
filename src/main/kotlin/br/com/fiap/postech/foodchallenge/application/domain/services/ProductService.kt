@@ -1,6 +1,7 @@
 package br.com.fiap.postech.foodchallenge.application.domain.services
 
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductAlreadyExistsException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.update
@@ -12,7 +13,16 @@ import org.springframework.stereotype.Service
 class ProductService(
     private val productRepository: ProductRepository
 ) {
-    fun createProduct(product: Product): Product = productRepository.save(product)
+    fun createProduct(product: Product): Product {
+        val searchedProduct = productRepository.findByName(product.name)
+
+        if(searchedProduct.isPresent)
+            throw ProductAlreadyExistsException(product.name)
+
+        return productRepository.save(product)
+    }
+
+
     fun updateProduct(id: Long, newProduct: Product): Product {
         val currentProductOptional = productRepository.findById(id)
 
@@ -21,7 +31,11 @@ class ProductService(
 
         val currentProduct = currentProductOptional.get().update(newProduct)
 
-        return productRepository.save(currentProduct)
+        try {
+            return productRepository.save(currentProduct)
+        }catch (ex:Exception){
+            throw ex
+        }
     }
 
     fun deleteProduct(id: Long): ResponseEntity<Any> {
