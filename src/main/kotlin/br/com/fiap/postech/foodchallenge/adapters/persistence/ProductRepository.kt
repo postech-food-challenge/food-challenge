@@ -7,6 +7,5 @@ import java.util.*
 
 @Repository
 interface ProductRepository: JpaRepository<Product, Long> {
-    fun findByName(name: String): Optional<Product>
-
+    fun findByName(name: String): Product?
 }

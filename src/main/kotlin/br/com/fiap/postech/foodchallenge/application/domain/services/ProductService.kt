@@ -14,38 +14,22 @@ class ProductService(
     private val productRepository: ProductRepository
 ) {
     fun createProduct(product: Product): Product {
-        val searchedProduct = productRepository.findByName(product.name)
-
-        if(searchedProduct.isPresent)
+        productRepository.findByName(product.name)?.let {
             throw ProductAlreadyExistsException(product.name)
-
+        }
         return productRepository.save(product)
     }
 
 
     fun updateProduct(id: Long, newProduct: Product): Product {
-        val currentProductOptional = productRepository.findById(id)
+        val currentProduct = productRepository.findById(id).orElse(null) ?: throw ProductNotFoundException(id)
+        val updatedProduct = currentProduct.update(newProduct)
 
-        if(currentProductOptional.isEmpty)
-            throw ProductNotFoundException(id)
-
-        val currentProduct = currentProductOptional.get().update(newProduct)
-
-        try {
-            return productRepository.save(currentProduct)
-        }catch (ex:Exception){
-            throw ex
-        }
+        return productRepository.save(updatedProduct)
     }
 
     fun deleteProduct(id: Long): ResponseEntity<Any> {
-        val productOptional = productRepository.findById(id)
-
-        if(productOptional.isEmpty)
-            throw ProductNotFoundException(id)
-
-        val foundProduct = productOptional.get()
-
+        val foundProduct = productRepository.findById(id).orElse(null)?: throw ProductNotFoundException(id)
         productRepository.delete(foundProduct)
 
         return ResponseEntity(HttpStatus.ACCEPTED)

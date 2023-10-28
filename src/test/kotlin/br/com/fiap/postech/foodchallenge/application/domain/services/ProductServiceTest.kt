@@ -31,7 +31,7 @@ class ProductServiceTest {
     @Test
     fun `createProduct - should create new product`() {
         val newProduct = createNewProduct()
-        whenever(productRepository.findByName(newProduct.name)).thenReturn(Optional.empty())
+        whenever(productRepository.findByName(newProduct.name)).thenReturn(null)
         whenever(productRepository.save(newProduct)).thenReturn(newProduct.copy(id = 1))
 
         val createdProduct = productService.createProduct(newProduct)
@@ -42,7 +42,7 @@ class ProductServiceTest {
     @Test
     fun `createProduct - should throw ProductAlreadyExistsException`() {
         val newProduct = createNewProduct()
-        whenever(productRepository.findByName(newProduct.name)).thenReturn(Optional.of(newProduct))
+        whenever(productRepository.findByName(newProduct.name)).thenReturn(newProduct)
 
         assertThrows<ProductAlreadyExistsException> { productService.createProduct(newProduct) }
 

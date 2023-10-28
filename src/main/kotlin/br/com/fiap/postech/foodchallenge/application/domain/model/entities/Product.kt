@@ -30,9 +30,7 @@ data class Product(
 )
 
 fun Product.update(newProduct: Product) : Product =
-    Product(
-        id = id,
-        name = newProduct.name,
+    this.copy(name = newProduct.name,
         description = newProduct.description,
         image = newProduct.image,
         price = newProduct.price,
