@@ -42,4 +42,8 @@ class ErrorHandlingController {
         return ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleInternalErrors(ex: IllegalStateException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.INTERNAL_SERVER_ERROR)
+
 }
