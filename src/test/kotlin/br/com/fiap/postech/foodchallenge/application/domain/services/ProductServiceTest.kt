@@ -1,6 +1,8 @@
 package br.com.fiap.postech.foodchallenge.application.domain.services
 
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCategoryException
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoProductsFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductAlreadyExistsException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
@@ -121,7 +123,23 @@ class ProductServiceTest {
         assert(productsList.first()?.name == "Batata")
     }
 
+    @Test
+    fun `getProducts - should throw InvalidCategoryException when a given category doesn't exist`() {
+        assertThrows<InvalidCategoryException> { productService.findProductByCategory("AAA") }
 
+        verify(productRepository, never()).findByCategory(any())
+    }
+
+    @Test
+    fun `getProducts - should throw NoProductsFoundException when a given category doesn't exist`() {
+        val productCategoryEnum = ProductCategoryEnum.MAIN
+
+        whenever(productRepository.findByCategory(productCategoryEnum)).thenReturn(emptyList())
+
+        assertThrows<NoProductsFoundException> { productService.findProductByCategory("MAIN") }
+
+        verify(productRepository).findByCategory(any())
+    }
 
     private fun createNewProduct():Product {
         return Product(
