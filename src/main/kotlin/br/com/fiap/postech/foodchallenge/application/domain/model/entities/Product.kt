@@ -45,7 +45,6 @@ enum class ProductCategoryEnum {
 
         fun validateCategory(category: String): ProductCategoryEnum {
             return enumValues<ProductCategoryEnum>().find { it.name == category }
-                //arrumar depois do exception handler
                 ?: throw InvalidCategoryException("Invalid category: $category")
         }
     }
