@@ -1,6 +1,7 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
 
 import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.OrderEntity
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidParameterException
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus.RECEIVED
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -26,7 +27,14 @@ data class OrderItem(
 )
 
 enum class OrderStatus {
-    RECEIVED, IN_PREPARATION, READY, COMPLETED, CANCELED
+    RECEIVED, IN_PREPARATION, READY, COMPLETED, CANCELED;
+
+    companion object {
+        fun validateStatus(status: String) : OrderStatus {
+            return enumValues<OrderStatus>().find { it.name == status }
+                ?: throw InvalidParameterException("Invalid status: $status")
+        }
+    }
 }
 
 fun Order.toEntity(objectMapper: ObjectMapper): OrderEntity {
