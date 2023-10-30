@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.com.intellij.openapi.vfs.StandardFileSystems.jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {

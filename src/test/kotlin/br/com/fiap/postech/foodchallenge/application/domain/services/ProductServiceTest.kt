@@ -95,7 +95,6 @@ class ProductServiceTest {
 
     @Test
     fun `deleteProduct - should throw ProductNotFoundException`() {
-        val createdProduct = createNewProduct()
         val productId = 1L
 
         whenever(productRepository.findById(1L)).thenReturn(Optional.empty())
