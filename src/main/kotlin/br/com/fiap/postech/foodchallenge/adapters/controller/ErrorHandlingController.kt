@@ -20,7 +20,7 @@ class ErrorHandlingController {
         ex.bindingResult.fieldErrors.associate { it.field to it.defaultMessage }
             .let { ResponseEntity(it, HttpStatus.BAD_REQUEST) }
 
-    @ExceptionHandler(ProductNotFoundException::class, NoProductsFoundException::class)
+    @ExceptionHandler(ProductNotFoundException::class, NoObjectFoundException::class)
     fun handleNotFound(ex: RuntimeException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
 
@@ -32,8 +32,8 @@ class ErrorHandlingController {
     fun handleInternalErrors(ex: IllegalStateException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.INTERNAL_SERVER_ERROR)
 
-    @ExceptionHandler(InvalidCategoryException::class)
-    fun handleInvalidCategoryException(ex: InvalidCategoryException): ResponseEntity<String> =
+    @ExceptionHandler(InvalidParameterException::class)
+    fun handleInvalidCategoryException(ex: InvalidParameterException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
 
 }

@@ -1,7 +1,7 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.entities
 
 
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCategoryException
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidParameterException
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -43,7 +43,7 @@ enum class ProductCategoryEnum {
 
         fun validateCategory(category: String): ProductCategoryEnum {
             return enumValues<ProductCategoryEnum>().find { it.name == category }
-                ?: throw InvalidCategoryException("Invalid category: $category")
+                ?: throw InvalidParameterException("Invalid category: $category")
         }
     }
 }
