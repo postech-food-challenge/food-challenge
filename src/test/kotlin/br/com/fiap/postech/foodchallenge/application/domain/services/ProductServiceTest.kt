@@ -24,6 +24,7 @@ import java.util.*
 class ProductServiceTest {
     private lateinit var productRepository: ProductRepository
     private lateinit var productService: ProductService
+
     @BeforeEach
     fun setUp() {
         productRepository = mock()
@@ -41,6 +42,7 @@ class ProductServiceTest {
 
         assert(newProduct.name == createdProduct.name)
     }
+
     @Test
     fun `createProduct - should throw ProductAlreadyExistsException`() {
         val newProduct = createNewProduct()
@@ -97,7 +99,7 @@ class ProductServiceTest {
 
     @Test
     fun `deleteProduct - should throw ProductNotFoundException`() {
-        val createdProduct = createNewProduct()
+        createNewProduct()
         val productId = 1L
 
         whenever(productRepository.findById(1L)).thenReturn(Optional.empty())
@@ -141,7 +143,7 @@ class ProductServiceTest {
         verify(productRepository).findByCategory(any())
     }
 
-    private fun createNewProduct():Product {
+    private fun createNewProduct(): Product {
         return Product(
             id = null,
             name = "Batata",
@@ -151,7 +153,8 @@ class ProductServiceTest {
             category = ProductCategoryEnum.SIDE
         )
     }
-    private fun updateProduct():Product {
+
+    private fun updateProduct(): Product {
         return Product(
             id = null,
             name = "Batata2",

@@ -11,42 +11,29 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @ControllerAdvice
 class ErrorHandlingController {
 
-    @ExceptionHandler(CustomerAlreadyRegisteredException::class)
-    fun handleCustomerAlreadyRegistered(exception: CustomerAlreadyRegisteredException): ResponseEntity<String> {
-        return ResponseEntity(exception.message, HttpStatus.CONFLICT)
-    }
+    @ExceptionHandler(CustomerAlreadyRegisteredException::class, ProductAlreadyExistsException::class)
+    fun handleConflict(ex: RuntimeException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.CONFLICT)
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String?>> {
-        val errors = mutableMapOf<String, String?>()
-        ex.bindingResult.fieldErrors.forEach { error ->
-            errors[error.field] = error.defaultMessage
-        }
-        return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
-    }
+    fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String?>> =
+        ex.bindingResult.fieldErrors.associate { it.field to it.defaultMessage }
+            .let { ResponseEntity(it, HttpStatus.BAD_REQUEST) }
 
-    @ExceptionHandler(ProductNotFoundException::class)
-    fun handleProductNotFound(ex: ProductNotFoundException): ResponseEntity<String>{
-        return  ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
-    }
-
-    @ExceptionHandler(ProductAlreadyExistsException::class)
-    fun handleProductAlreadyExists(ex: ProductAlreadyExistsException): ResponseEntity<String>{
-        return  ResponseEntity(ex.message, HttpStatus.CONFLICT)
-    }
+    @ExceptionHandler(ProductNotFoundException::class, NoProductsFoundException::class)
+    fun handleNotFound(ex: RuntimeException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
 
     @ExceptionHandler(DataIntegrityViolationException::class)
-    fun handleInvalidDBRequest(ex: DataIntegrityViolationException): ResponseEntity<String>{
-        return  ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
-    }
+    fun handleInvalidDBRequest(ex: DataIntegrityViolationException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleInternalErrors(ex: IllegalStateException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.INTERNAL_SERVER_ERROR)
 
     @ExceptionHandler(InvalidCategoryException::class)
-    fun handleInvalidCategoryException(ex: InvalidCategoryException): ResponseEntity<String>{
-        return ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
-    }
+    fun handleInvalidCategoryException(ex: InvalidCategoryException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
 
-    @ExceptionHandler(NoProductsFoundException::class)
-    fun handleNoProductsFoundException(ex: NoProductsFoundException): ResponseEntity<String>{
-        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
-    }
 }

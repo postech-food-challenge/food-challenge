@@ -1,31 +1,35 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
 
-import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
+import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.OrderEntity
+import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus.RECEIVED
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 
 data class Order(
-    val id: OrderId,
-    val customerId: Long?,
+    val id: Long? = null,
+    val customerId: Long? = null,
     val items: List<OrderItem>,
     val status: OrderStatus
 ) {
-    fun addItem(item: OrderItem): Order {
-        val updatedItems = items + item
-        return copy(items = updatedItems)
-    }
-
-    fun updateStatus(newStatus: OrderStatus): Order {
-        return copy(status = newStatus)
+    companion object {
+        fun createOrder(customerId: Long?, items: List<OrderItem>): Order {
+            return Order(customerId = customerId, items = items, status = RECEIVED)
+        }
     }
 }
 
-data class OrderId(val value: String)
-
-// Value Object?
 data class OrderItem(
-    val product: Product,
-    val quantity: Int
+    val productId: Long,
+    val quantity: Int,
+    val observations: String? = null,
+    val toGo: Boolean
 )
 
 enum class OrderStatus {
     RECEIVED, IN_PREPARATION, READY, COMPLETED, CANCELED
+}
+
+fun Order.toEntity(objectMapper: ObjectMapper): OrderEntity {
+    val itemsData = objectMapper.valueToTree<JsonNode>(this.items)
+    return OrderEntity(this.id, this.customerId, itemsData, this.status)
 }

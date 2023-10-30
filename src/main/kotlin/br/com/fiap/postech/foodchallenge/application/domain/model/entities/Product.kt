@@ -1,11 +1,8 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.entities
 
+
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCategoryException
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
@@ -30,8 +27,9 @@ data class Product(
     val category: ProductCategoryEnum
 )
 
-fun Product.update(newProduct: Product) : Product =
-    this.copy(name = newProduct.name,
+fun Product.update(newProduct: Product): Product =
+    this.copy(
+        name = newProduct.name,
         description = newProduct.description,
         image = newProduct.image,
         price = newProduct.price,
