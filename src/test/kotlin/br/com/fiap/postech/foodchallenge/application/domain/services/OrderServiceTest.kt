@@ -5,7 +5,11 @@ import br.com.fiap.postech.foodchallenge.adapters.controller.dto.OrderItemReques
 import br.com.fiap.postech.foodchallenge.adapters.persistence.CustomerRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.OrderRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.OrderEntity
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidParameterException
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoObjectFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
+import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order.Companion.createOrder
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderItem
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
@@ -13,7 +17,9 @@ import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.toE
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum.MAIN
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum.SIDE
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -21,11 +27,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.kotlin.any
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import java.util.*
+import com.fasterxml.jackson.databind.node.ObjectNode
+import org.mockito.kotlin.*
 
 class OrderServiceTest {
 
@@ -58,8 +62,28 @@ class OrderServiceTest {
         val nezukoProduct =
             Product(2L, "Nezuko's Bamboo", "Bamboo mouthpiece", "imageUrl", 20, SIDE)
 
+        val items = listOf(
+            OrderItem(
+                productId = 1L,
+                quantity = 2,
+                observations = "teste",
+                toGo = false
+            )
+        )
+
+        val arrayNode: ArrayNode = objectMapper.valueToTree(items)
+
+        val orderEntity = OrderEntity(
+            id = 1L,
+            customerId = 1L,
+            itemsData = arrayNode,
+            status = OrderStatus.RECEIVED
+        )
+
         whenever(productRepository.findById(1L)).thenReturn(Optional.of(tanjiroProduct))
         whenever(productRepository.findById(2L)).thenReturn(Optional.of(nezukoProduct))
+        whenever(orderRepository.findAll()).thenReturn(listOf(orderEntity))
+        whenever(orderRepository.findByStatus(OrderStatus.RECEIVED)).thenReturn(listOf(orderEntity))
     }
 
     @Test
@@ -95,4 +119,35 @@ class OrderServiceTest {
         }
     }
 
+    @Test
+    fun `getOrders - should get a list of orders when receiving a status`() {
+        val ordersList = orderService.getOrders("RECEIVED")
+
+        verify(orderRepository).findByStatus(OrderStatus.RECEIVED)
+
+        assert(ordersList.first().status == OrderStatus.RECEIVED)
+    }
+
+    @Test
+    fun `getOrders - should get a list of orders when not receiving a status`() {
+        val ordersList = orderService.getOrders(null)
+
+        verify(orderRepository).findAll()
+
+        assert(ordersList.first().status == OrderStatus.RECEIVED)
+    }
+
+    @Test
+    fun `getOrders - should throw InvalidParameterException when getting a list of orders and receiving a wrong status`() {
+        assertThrows<InvalidParameterException> { orderService.getOrders("RECEIV") }
+
+        verify(orderRepository, never()).findByStatus(any())
+    }
+
+    @Test
+    fun `getOrders - should throw NoObjectFoundException when getting a empty list of orders`() {
+        whenever(orderRepository.findAll()).thenReturn(emptyList())
+
+        assertThrows<NoObjectFoundException> { orderService.getOrders(null) }
+    }
 }
