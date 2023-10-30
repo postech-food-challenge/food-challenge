@@ -1,10 +1,8 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.entities
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCategoryException
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
@@ -26,17 +24,26 @@ data class Product(
     @field:Positive(message = "Price should be greater then zero")
     val price: Int,
     @field:NotNull
-    val category: ProductCategory
+    val category: ProductCategoryEnum
 )
 
-fun Product.update(newProduct: Product) : Product =
-    this.copy(name = newProduct.name,
+fun Product.update(newProduct: Product): Product =
+    this.copy(
+        name = newProduct.name,
         description = newProduct.description,
         image = newProduct.image,
         price = newProduct.price,
         category = newProduct.category
     )
 
-enum class ProductCategory {
+enum class ProductCategoryEnum {
     MAIN, SIDE, DRINK, DESSERT;
+
+    companion object {
+
+        fun validateCategory(category: String): ProductCategoryEnum {
+            return enumValues<ProductCategoryEnum>().find { it.name == category }
+                ?: throw InvalidCategoryException("Invalid category: $category")
+        }
+    }
 }

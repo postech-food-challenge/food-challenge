@@ -1,9 +1,11 @@
 package br.com.fiap.postech.foodchallenge.application.domain.services
 
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoProductsFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductAlreadyExistsException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
+import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.update
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -29,10 +31,17 @@ class ProductService(
     }
 
     fun deleteProduct(id: Long): ResponseEntity<Any> {
-        val foundProduct = productRepository.findById(id).orElse(null)?: throw ProductNotFoundException(id)
+        val foundProduct = productRepository.findById(id).orElse(null) ?: throw ProductNotFoundException(id)
         productRepository.delete(foundProduct)
 
         return ResponseEntity(HttpStatus.ACCEPTED)
     }
 
+    fun findProductByCategory(category: String): List<Product?> {
+        val validatedCategory = ProductCategoryEnum.validateCategory(category)
+
+        return productRepository.findByCategory(validatedCategory).takeIf { it.isNotEmpty() }
+            ?: throw NoProductsFoundException(validatedCategory.name)
+    }
 }
+

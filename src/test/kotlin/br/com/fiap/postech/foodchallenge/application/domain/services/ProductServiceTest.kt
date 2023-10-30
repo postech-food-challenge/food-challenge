@@ -1,10 +1,12 @@
 package br.com.fiap.postech.foodchallenge.application.domain.services
 
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCategoryException
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoProductsFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductAlreadyExistsException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
-import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategory
+import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -22,6 +24,7 @@ import java.util.*
 class ProductServiceTest {
     private lateinit var productRepository: ProductRepository
     private lateinit var productService: ProductService
+
     @BeforeEach
     fun setUp() {
         productRepository = mock()
@@ -39,6 +42,7 @@ class ProductServiceTest {
 
         assert(newProduct.name == createdProduct.name)
     }
+
     @Test
     fun `createProduct - should throw ProductAlreadyExistsException`() {
         val newProduct = createNewProduct()
@@ -105,26 +109,58 @@ class ProductServiceTest {
 
     }
 
+    @Test
+    fun `getProducts - should get a list of products based on a given category`() {
+        val createdProduct = createNewProduct()
+        val productCategoryEnum = ProductCategoryEnum.SIDE
 
+        whenever(productRepository.findByCategory(productCategoryEnum)).thenReturn(listOf(createdProduct))
 
-    private fun createNewProduct():Product {
+        val productsList = productService.findProductByCategory("SIDE")
+
+        verify(productRepository).findByCategory(productCategoryEnum)
+        assert(productsList == listOf(createdProduct))
+        assert(productsList.first()?.category == ProductCategoryEnum.SIDE)
+        assert(productsList.first()?.name == "Batata")
+    }
+
+    @Test
+    fun `getProducts - should throw InvalidCategoryException when a given category doesn't exist`() {
+        assertThrows<InvalidCategoryException> { productService.findProductByCategory("AAA") }
+
+        verify(productRepository, never()).findByCategory(any())
+    }
+
+    @Test
+    fun `getProducts - should throw NoProductsFoundException when a given category doesn't exist`() {
+        val productCategoryEnum = ProductCategoryEnum.MAIN
+
+        whenever(productRepository.findByCategory(productCategoryEnum)).thenReturn(emptyList())
+
+        assertThrows<NoProductsFoundException> { productService.findProductByCategory("MAIN") }
+
+        verify(productRepository).findByCategory(any())
+    }
+
+    private fun createNewProduct(): Product {
         return Product(
             id = null,
             name = "Batata",
             description = "Batata em palitos",
             image = "www.google.com",
             price = 999,
-            category = ProductCategory.SIDE
+            category = ProductCategoryEnum.SIDE
         )
     }
-    private fun updateProduct():Product {
+
+    private fun updateProduct(): Product {
         return Product(
             id = null,
             name = "Batata2",
             description = "Batata em palitos",
             image = "www.google.com",
             price = 1200,
-            category = ProductCategory.SIDE
+            category = ProductCategoryEnum.SIDE
         )
     }
 }
