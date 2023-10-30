@@ -1,8 +1,6 @@
 package br.com.fiap.postech.foodchallenge.adapters.controller
 
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.CustomerAlreadyRegisteredException
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductAlreadyExistsException
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
+import br.com.fiap.postech.foodchallenge.application.domain.exceptions.*
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -33,5 +31,13 @@ class ErrorHandlingController {
     @ExceptionHandler(IllegalStateException::class)
     fun handleInternalErrors(ex: IllegalStateException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.INTERNAL_SERVER_ERROR)
+
+    @ExceptionHandler(InvalidCategoryException::class)
+    fun handleInvalidCategoryException(ex: InvalidCategoryException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(NoProductsFoundException::class)
+    fun handleNoProductsFoundException(ex: NoProductsFoundException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
 
 }
