@@ -22,17 +22,23 @@ Ensure you have the following installed on your local machine:
     cd food-challenge
     ```
 
-2. **Start the PostgreSQL Database:**
-    We're using Docker to run our PostgreSQL database. To start the database, ensure Docker is running and execute the following command:
+2. **Docker Compose:**
+    We're using docker-compose to run our PostgreSQL database and application. To start both containers for the first time, ensure Docker is running and execute the following command:
    
+    ```bash
+    docker-compose up -d --build
+    ```
+    If you have already built the application and want to run it again, use the following command:
+
     ```bash
     docker-compose up -d
     ```
-3. **Run the Application:**
-   With the database running, you can now start the application. We're using Gradle, and you can run the application using the following command:
-
-    ```bash
-    ./gradlew bootRun
-    ```
 
 That's it! Your local development environment is set up, and you should be able to start working on the project.
+
+## Swagger
+
+To get a better view of the API endpoint, you can access the swagger endpoint in the following path:
+
+    localhost:8080/swagger-ui/index.html
+    
