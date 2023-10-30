@@ -20,7 +20,9 @@ data class Order(
 
 data class OrderItem(
     val productId: Long,
-    val quantity: Int
+    val quantity: Int,
+    val observations: String? = null,
+    val toGo: Boolean
 )
 
 enum class OrderStatus {

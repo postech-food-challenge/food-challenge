@@ -27,7 +27,7 @@ class OrderService(
                 .orElseThrow { ProductNotFoundException(itemRequest.productId) }
 
             product.id?.let {
-                OrderItem(it, itemRequest.quantity)
+                OrderItem(it, itemRequest.quantity, itemRequest.observations, itemRequest.toGo)
             } ?: throw IllegalStateException("Product ID should not be null.")
         }
 

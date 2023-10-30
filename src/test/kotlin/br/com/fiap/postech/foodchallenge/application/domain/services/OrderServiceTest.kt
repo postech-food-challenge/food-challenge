@@ -64,11 +64,14 @@ class OrderServiceTest {
 
     @Test
     fun `should create order and return checkout response`() {
-        val items = listOf(OrderItemRequest(1L, 2), OrderItemRequest(2L, 1))
+        val items = listOf(
+            OrderItemRequest(productId = 1L, quantity = 2, toGo = false),
+            OrderItemRequest(productId = 2L, quantity = 1, toGo = false)
+        )
         val request = CheckoutRequest(1L, items)
 
-        val tanjiroOrderItem = OrderItem(1L, 2)
-        val nezukoOrderItem = OrderItem(2L, 1)
+        val tanjiroOrderItem = OrderItem(productId = 1L, quantity = 2, toGo = false)
+        val nezukoOrderItem = OrderItem(productId = 2L, quantity = 1, toGo = false)
         val createdOrder = createOrder(1L, listOf(tanjiroOrderItem, nezukoOrderItem))
         val orderEntity = createdOrder.toEntity(objectMapper)
 
@@ -82,7 +85,7 @@ class OrderServiceTest {
 
     @Test
     fun `should throw ProductNotFoundException when product is not found`() {
-        val items = listOf(OrderItemRequest(3L, 2))
+        val items = listOf(OrderItemRequest(productId = 3L, quantity = 2, toGo = false))
         val request = CheckoutRequest(1L, items)
 
         whenever(productRepository.findById(3L)).thenReturn(Optional.empty())
