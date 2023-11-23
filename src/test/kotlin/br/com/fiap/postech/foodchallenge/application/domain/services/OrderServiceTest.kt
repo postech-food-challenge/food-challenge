@@ -6,18 +6,16 @@ import br.com.fiap.postech.foodchallenge.adapters.persistence.CustomerRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.OrderRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.OrderEntity
+import br.com.fiap.postech.foodchallenge.application.configuration.toEntity
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidParameterException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoObjectFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
-import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order.Companion.createOrder
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderItem
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
-import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.toEntity
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum.MAIN
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum.SIDE
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
@@ -27,9 +25,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.*
-import com.fasterxml.jackson.databind.node.ObjectNode
 import org.mockito.kotlin.*
+import java.util.*
 
 class OrderServiceTest {
 

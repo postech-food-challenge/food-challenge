@@ -1,6 +1,5 @@
 package br.com.fiap.postech.foodchallenge.adapters.controller.dto
 
-import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Customer
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
@@ -20,7 +19,3 @@ data class CustomerRequest(
     @field:Email(message = "Invalid email format")
     val email: String
 )
-
-fun CustomerRequest.toDomain(): Customer {
-    return Customer.createCustomer(this)
-}
