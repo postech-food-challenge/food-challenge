@@ -1,6 +1,7 @@
-package br.com.fiap.postech.foodchallenge.adapters.controller
+package br.com.fiap.postech.foodchallenge.infrastructure.controller
 
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.*
+import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -34,6 +35,10 @@ class ErrorHandlingController {
 
     @ExceptionHandler(InvalidParameterException::class)
     fun handleInvalidCategoryException(ex: InvalidParameterException): ResponseEntity<String> =
+        ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(InvalidCpfException::class)
+    fun handleInvalidCpf(ex: InvalidCpfException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
 
 }

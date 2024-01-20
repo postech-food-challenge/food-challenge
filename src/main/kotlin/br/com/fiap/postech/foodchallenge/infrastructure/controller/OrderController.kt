@@ -1,6 +1,6 @@
-package br.com.fiap.postech.foodchallenge.adapters.controller
+package br.com.fiap.postech.foodchallenge.infrastructure.controller
 
-import br.com.fiap.postech.foodchallenge.adapters.controller.dto.CheckoutRequest
+import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.CheckoutRequest
 import br.com.fiap.postech.foodchallenge.application.domain.services.OrderService
 import org.springframework.http.ResponseEntity
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order

@@ -1,10 +1,8 @@
-package br.com.fiap.postech.foodchallenge.adapters.controller
+package br.com.fiap.postech.foodchallenge.infrastructure.controller
 
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
-import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum
 import br.com.fiap.postech.foodchallenge.application.domain.services.ProductService
 import jakarta.validation.Valid
-import jdk.jshell.Snippet.Status
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping

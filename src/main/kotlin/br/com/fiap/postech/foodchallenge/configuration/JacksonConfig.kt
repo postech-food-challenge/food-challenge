@@ -1,4 +1,4 @@
-package br.com.fiap.postech.foodchallenge.application.configuration
+package br.com.fiap.postech.foodchallenge.configuration
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinFeature

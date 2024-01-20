@@ -1,4 +1,4 @@
-package br.com.fiap.postech.foodchallenge.adapters.controller.dto
+package br.com.fiap.postech.foodchallenge.infrastructure.controller.dto
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull

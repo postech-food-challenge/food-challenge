@@ -1,4 +1,4 @@
-package br.com.fiap.postech.foodchallenge.adapters.persistence.entities
+package br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities
 
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
 import com.fasterxml.jackson.databind.JsonNode

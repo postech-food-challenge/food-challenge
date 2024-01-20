@@ -1,9 +1,9 @@
 package br.com.fiap.postech.foodchallenge.application.domain.services
 
-import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.ProductRepository
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoObjectFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductAlreadyExistsException
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.Product
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum
 import br.com.fiap.postech.foodchallenge.application.domain.model.entities.update
