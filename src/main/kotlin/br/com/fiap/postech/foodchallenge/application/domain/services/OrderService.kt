@@ -6,7 +6,7 @@ import br.com.fiap.postech.foodchallenge.infrastructure.persistence.CustomerRepo
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.OrderRepository
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.ProductRepository
 import br.com.fiap.postech.foodchallenge.configuration.toDomain
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoObjectFoundException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.NoObjectFoundException
 import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order.Companion.createOrder

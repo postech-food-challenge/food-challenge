@@ -1,6 +1,10 @@
 package br.com.fiap.postech.foodchallenge.infrastructure.controller
 
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.*
+import br.com.fiap.postech.foodchallenge.domain.exceptions.CustomerAlreadyRegisteredException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidCpfException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidParameterException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.NoObjectFoundException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductAlreadyExistsException
 import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus

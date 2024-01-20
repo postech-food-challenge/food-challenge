@@ -19,6 +19,6 @@ class CustomerConfig {
         IdentifyCustomerInteract(gateway)
 
     @Bean
-    fun createGateway(repository: CustomerRepository): CustomerGateway =
+    fun createCustomerGateway(repository: CustomerRepository): CustomerGateway =
         CustomerRepositoryGateway(repository)
 }
