@@ -1,4 +1,4 @@
-package br.com.fiap.postech.foodchallenge.application.usecases
+package br.com.fiap.postech.foodchallenge.application.usecases.customer
 
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.CustomerAlreadyRegisteredException
 import br.com.fiap.postech.foodchallenge.application.gateways.CustomerGateway

@@ -1,6 +1,6 @@
 package br.com.fiap.postech.foodchallenge.domain.entities
 
-import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.CreateCustomerRequest
+import br.com.fiap.postech.foodchallenge.infrastructure.controller.customer.CreateCustomerRequest
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.CustomerEntity
 
 data class Customer(val cpf: String, val name: String, val email: String) {

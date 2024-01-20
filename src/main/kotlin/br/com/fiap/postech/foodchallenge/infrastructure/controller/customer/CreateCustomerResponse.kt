@@ -1,4 +1,4 @@
-package br.com.fiap.postech.foodchallenge.infrastructure.controller.dto
+package br.com.fiap.postech.foodchallenge.infrastructure.controller.customer
 
 import br.com.fiap.postech.foodchallenge.domain.entities.Customer
 

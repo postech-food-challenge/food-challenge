@@ -1,10 +1,8 @@
-package br.com.fiap.postech.foodchallenge.infrastructure.controller
+package br.com.fiap.postech.foodchallenge.infrastructure.controller.customer
 
-import br.com.fiap.postech.foodchallenge.application.usecases.IdentifyCustomerInteract
-import br.com.fiap.postech.foodchallenge.application.usecases.RegisterCustomerInteract
+import br.com.fiap.postech.foodchallenge.application.usecases.customer.IdentifyCustomerInteract
+import br.com.fiap.postech.foodchallenge.application.usecases.customer.RegisterCustomerInteract
 import br.com.fiap.postech.foodchallenge.domain.entities.Customer
-import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.CreateCustomerRequest
-import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.CreateCustomerResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.web.bind.annotation.*
