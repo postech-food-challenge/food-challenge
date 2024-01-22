@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-challenge
+  labels:
+    app: food-challenge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: food-challenge
+  template:
+    metadata:
+      labels:
+        app: food-challenge
+    spec:
+      containers:
+        - name: food-challenge
+          image: rafaelfaroque/food-challenge:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
