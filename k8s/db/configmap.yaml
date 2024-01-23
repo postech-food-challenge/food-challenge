@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: food-challenge-db-configmap
+  labels:
+    app: food-challenge-db
+data:
+  POSTGRES_USER: food-challenge
+  POSTGRES_DB: self-service
+  POSTGRES_PASSWORD: root

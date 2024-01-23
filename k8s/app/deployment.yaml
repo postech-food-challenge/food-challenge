@@ -18,6 +18,9 @@ spec:
         - name: food-challenge
           image: rafaelfaroque/food-challenge:v1
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: food-challenge-configmap
           ports:
             - containerPort: 8080
           resources:
