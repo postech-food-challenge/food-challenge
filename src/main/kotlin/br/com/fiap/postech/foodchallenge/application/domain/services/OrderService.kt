@@ -5,14 +5,14 @@ import br.com.fiap.postech.foodchallenge.adapters.controller.dto.CheckoutRespons
 import br.com.fiap.postech.foodchallenge.adapters.persistence.CustomerRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.OrderRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
-import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.toDomain
+import br.com.fiap.postech.foodchallenge.application.configuration.toDomain
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoObjectFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order.Companion.createOrder
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderItem
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
-import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.toEntity
+import br.com.fiap.postech.foodchallenge.application.configuration.toEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 
@@ -47,7 +47,7 @@ class OrderService(
         )
     }
 
-    fun getOrders(status: String?) : List<Order> {
+    fun getOrders(status: String?): List<Order> {
         val orders = status
             ?.takeIf { it.isNotEmpty() }
             ?.let { OrderStatus.validateStatus(it) }
