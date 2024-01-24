@@ -19,5 +19,4 @@ class CustomerService(private val repository: CustomerRepository) {
     fun getCustomerByCpf(cpf: String): Customer? {
         return repository.findByCpf(cpf)
     }
-
 }
