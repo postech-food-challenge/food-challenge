@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-challenge-db
+  labels:
+    app: food-challenge-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: food-challenge-db
+  template:
+    metadata:
+      labels:
+        app: food-challenge-db
+    spec:
+      containers:
+        - name: food-challenge-db
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: food-challenge-db-configmap
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: food-challenge-pvc

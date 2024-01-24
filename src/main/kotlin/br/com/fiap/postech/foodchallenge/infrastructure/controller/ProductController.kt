@@ -34,5 +34,4 @@ class ProductController(
     @GetMapping
     fun getProducts(@RequestParam category: String): List<Product?> =
         productService.findProductByCategory(category)
-
 }
