@@ -1,10 +1,9 @@
-package br.com.fiap.postech.foodchallenge.application.usecases
+package br.com.fiap.postech.foodchallenge.application.usecases.customer
 
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.CustomerAlreadyRegisteredException
 import br.com.fiap.postech.foodchallenge.application.gateways.CustomerGateway
-import br.com.fiap.postech.foodchallenge.application.usecases.customer.RegisterCustomerInteract
 import br.com.fiap.postech.foodchallenge.domain.entities.CPF
 import br.com.fiap.postech.foodchallenge.domain.entities.Customer
+import br.com.fiap.postech.foodchallenge.domain.exceptions.CustomerAlreadyRegisteredException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

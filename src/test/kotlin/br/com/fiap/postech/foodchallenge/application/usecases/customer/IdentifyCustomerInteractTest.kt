@@ -1,11 +1,10 @@
-package br.com.fiap.postech.foodchallenge.application.usecases
+package br.com.fiap.postech.foodchallenge.application.usecases.customer
 
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCpfException
 import br.com.fiap.postech.foodchallenge.application.gateways.CustomerGateway
-import br.com.fiap.postech.foodchallenge.application.usecases.customer.IdentifyCustomerInteract
 import br.com.fiap.postech.foodchallenge.domain.entities.CPF
 import br.com.fiap.postech.foodchallenge.domain.entities.Customer
 import br.com.fiap.postech.foodchallenge.domain.exceptions.CustomerNotFoundException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidCpfException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

@@ -1,7 +1,7 @@
-package br.com.fiap.postech.foodchallenge.application.domain.exceptions
+package br.com.fiap.postech.foodchallenge.domain.exceptions
 
-import br.com.fiap.postech.foodchallenge.application.domain.model.entities.ProductCategoryEnum
+import br.com.fiap.postech.foodchallenge.domain.entities.Category
 
-class ProductsNotFoundInCategoryException(category: ProductCategoryEnum):
+class ProductsNotFoundInCategoryException(category: Category) :
     RuntimeException("There are no products for category $category.") {
 }

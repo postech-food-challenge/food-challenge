@@ -1,6 +1,6 @@
 package br.com.fiap.postech.foodchallenge.domain.entities
 
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCpfException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidCpfException
 
 data class CPF(val value: String) {
     init {
