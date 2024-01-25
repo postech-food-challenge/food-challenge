@@ -19,10 +19,10 @@ class CustomerController(
     fun register(@RequestBody @Valid createCustomerRequest: CreateCustomerRequest) =
         Customer.fromRequest(createCustomerRequest)
             .let { customer -> registerUseCase.registerCustomer(customer) }
-            .let { domainResponse -> CreateCustomerResponse.fromDomain(domainResponse) }
+            .let { domainResponse -> CustomerResponse.fromDomain(domainResponse) }
 
     @GetMapping("/identify/{cpf}")
     fun identifyCustomer(@PathVariable cpf: String) =
         identifyUseCase.identify(cpf)
-            .let { CreateCustomerResponse.fromDomain(it) }
+            .let { CustomerResponse.fromDomain(it) }
 }

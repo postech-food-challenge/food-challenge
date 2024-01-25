@@ -6,7 +6,7 @@ import br.com.fiap.postech.foodchallenge.domain.entities.Customer
 
 class RegisterCustomerInteract(private val gateway: CustomerGateway) {
     fun registerCustomer(customer: Customer) =
-        gateway.findByCpf(customer.cpf)
-            ?.let { throw CustomerAlreadyRegisteredException(customer.cpf) }
+        gateway.findByCpf(customer.cpf.value)
+            ?.let { throw CustomerAlreadyRegisteredException(customer.cpf.value) }
             ?: gateway.create(customer)
 }
