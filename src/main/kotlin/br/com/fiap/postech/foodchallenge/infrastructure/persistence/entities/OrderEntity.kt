@@ -29,3 +29,8 @@ data class OrderEntity(
     @JsonSerialize
     val createdAt: LocalDateTime
 )
+
+fun OrderEntity.updateStatus(newStatus: OrderStatus): OrderEntity =
+    this.copy(
+        status = newStatus,
+    )

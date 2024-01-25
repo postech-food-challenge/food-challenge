@@ -11,9 +11,11 @@ import br.com.fiap.postech.foodchallenge.domain.exceptions.NoObjectFoundExceptio
 import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.CheckoutRequest
 import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.CheckoutResponse
+import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.UpdateOrderStatusRequest
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.CustomerRepository
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.OrderRepository
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.updateStatus
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 
@@ -76,5 +78,14 @@ class OrderService(
             ?.sortedWith(OrderEntityComparator())
             ?.map { it.toDomain(objectMapper) }
             ?: throw NoObjectFoundException("No orders found.")
+    }
+
+    fun updateOrderStatus(id: Long, newStatusWrapper: UpdateOrderStatusRequest): Order {
+        val orderToUpdate =
+            orderRepository.findById(id).orElse(null) ?: throw NoObjectFoundException("No order found for id = $id")
+        val updatedOrder = orderToUpdate.updateStatus(newStatusWrapper.status)
+        orderRepository.save(updatedOrder)
+
+        return updatedOrder.toDomain(objectMapper)
     }
 }
