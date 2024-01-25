@@ -23,3 +23,8 @@ data class OrderEntity(
     @Enumerated(EnumType.STRING)
     val status: OrderStatus
 )
+
+fun OrderEntity.updateStatus(newStatus: OrderStatus): OrderEntity =
+    this.copy(
+        status = newStatus,
+    )
