@@ -1,7 +1,7 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
 
-import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.OrderEntity
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidParameterException
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.OrderEntity
+import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidParameterException
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus.RECEIVED
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper

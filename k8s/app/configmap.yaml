@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: food-challenge-configmap
+  labels:
+    app: food-challenge-configmap
+data:
+  DB_HOST: "food-challenge-db"
+  DB_PORT: "5432"
+  DB_USERNAME: "food-challenge"
+  DB_PASSWORD: "root"
