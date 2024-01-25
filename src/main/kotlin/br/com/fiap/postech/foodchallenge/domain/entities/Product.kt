@@ -1,6 +1,5 @@
 package br.com.fiap.postech.foodchallenge.domain.entities
 
-import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidParameterException
 import br.com.fiap.postech.foodchallenge.infrastructure.controller.product.CreateProductRequest
 import br.com.fiap.postech.foodchallenge.infrastructure.controller.product.UpdateProductRequest
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.ProductEntity
@@ -21,7 +20,6 @@ data class Product(
             price = newProduct.price,
             category = newProduct.category
         )
-
 
     companion object {
         fun fromEntity(entity: ProductEntity): Product {
@@ -53,17 +51,6 @@ data class Product(
                 price = request.price,
                 category = Category.validateCategory(request.category)
             )
-        }
-    }
-}
-
-enum class Category {
-    MAIN, SIDE, DRINK, DESSERT;
-
-    companion object {
-        fun validateCategory(category: String): Category {
-            return enumValues<Category>().find { it.name == category }
-                ?: throw InvalidParameterException("Invalid category: $category")
         }
     }
 }
