@@ -9,7 +9,7 @@ data class PaymentEntity (
     val id: Long? = null,
 
     @OneToOne
-    @JoinColumn(name= "order", referencedColumnName = "id")
+    @JoinColumn(name= "orders", referencedColumnName = "id")
     val order: OrderEntity,
 
     val amount: Long,
