@@ -24,10 +24,7 @@ data class OrderEntity(
     val status: OrderStatus
 )
 
-fun OrderEntity.updateStatus(newOrder: OrderEntity, orderStatus: OrderStatus): OrderEntity =
+fun OrderEntity.updateStatus(newStatus: OrderStatus): OrderEntity =
     this.copy(
-        id = newOrder.id,
-        customerId = newOrder.customerId,
-        itemsData = newOrder.itemsData,
-        status = orderStatus,
+        status = newStatus,
     )
