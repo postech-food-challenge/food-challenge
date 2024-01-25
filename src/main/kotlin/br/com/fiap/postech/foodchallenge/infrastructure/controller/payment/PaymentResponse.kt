@@ -4,7 +4,6 @@ import br.com.fiap.postech.foodchallenge.domain.entities.Payment
 
 data class PaymentResponse(
     val orderId: Long,
-    val paymentType: String,
     val paymentValidated: Boolean
 ) {
 
@@ -12,7 +11,6 @@ data class PaymentResponse(
         fun fromDomain(domain: Payment): PaymentResponse {
             return PaymentResponse(
                 orderId = domain.orderId,
-                paymentType = domain.paymentType,
                 paymentValidated = domain.paymentValidated
             )
         }

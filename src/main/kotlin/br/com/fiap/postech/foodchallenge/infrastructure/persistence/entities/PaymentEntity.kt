@@ -12,7 +12,7 @@ data class PaymentEntity (
     @JoinColumn(name= "order", referencedColumnName = "id")
     val order: OrderEntity,
 
-    val paymentType: String,
+    val amount: Long,
 
     val paymentValidated: Boolean
 )
