@@ -1,15 +1,15 @@
 package br.com.fiap.postech.foodchallenge.application.domain.services
 
-import br.com.fiap.postech.foodchallenge.adapters.controller.dto.CheckoutRequest
-import br.com.fiap.postech.foodchallenge.adapters.controller.dto.OrderItemRequest
-import br.com.fiap.postech.foodchallenge.adapters.persistence.CustomerRepository
-import br.com.fiap.postech.foodchallenge.adapters.persistence.OrderRepository
-import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
-import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.OrderEntity
-import br.com.fiap.postech.foodchallenge.application.configuration.toEntity
+import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.CheckoutRequest
+import br.com.fiap.postech.foodchallenge.infrastructure.controller.dto.OrderItemRequest
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.CustomerRepository
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.OrderRepository
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.OrderEntity
+import br.com.fiap.postech.foodchallenge.configuration.toEntity
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidParameterException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoObjectFoundException
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order.Companion.createOrder
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderItem
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
