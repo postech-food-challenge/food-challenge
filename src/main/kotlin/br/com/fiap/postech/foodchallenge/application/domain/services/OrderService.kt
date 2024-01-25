@@ -2,17 +2,19 @@ package br.com.fiap.postech.foodchallenge.application.domain.services
 
 import br.com.fiap.postech.foodchallenge.adapters.controller.dto.CheckoutRequest
 import br.com.fiap.postech.foodchallenge.adapters.controller.dto.CheckoutResponse
+import br.com.fiap.postech.foodchallenge.adapters.controller.dto.UpdateOrderStatusRequest
 import br.com.fiap.postech.foodchallenge.adapters.persistence.CustomerRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.OrderRepository
 import br.com.fiap.postech.foodchallenge.adapters.persistence.ProductRepository
+import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.updateStatus
 import br.com.fiap.postech.foodchallenge.application.configuration.toDomain
+import br.com.fiap.postech.foodchallenge.application.configuration.toEntity
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.NoObjectFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order.Companion.createOrder
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderItem
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
-import br.com.fiap.postech.foodchallenge.application.configuration.toEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 
@@ -57,5 +59,13 @@ class OrderService(
         return orders.takeIf { it.isNotEmpty() }
             ?.map { it.toDomain(objectMapper) }
             ?: throw NoObjectFoundException("No orders found.")
+    }
+
+    fun updateOrderStatus(id: Long, newStatusWrapper: UpdateOrderStatusRequest): Order {
+        val orderToUpdate = orderRepository.findById(id).orElse(null) ?: throw NoObjectFoundException("No order found for id = $id")
+        val updatedOrder = orderToUpdate.updateStatus(orderToUpdate, newStatusWrapper.status)
+        orderRepository.save(updatedOrder);
+
+        return updatedOrder.toDomain(objectMapper);
     }
 }

@@ -1,9 +1,10 @@
 package br.com.fiap.postech.foodchallenge.adapters.controller
 
 import br.com.fiap.postech.foodchallenge.adapters.controller.dto.CheckoutRequest
+import br.com.fiap.postech.foodchallenge.adapters.controller.dto.UpdateOrderStatusRequest
+import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order
 import br.com.fiap.postech.foodchallenge.application.domain.services.OrderService
 import org.springframework.http.ResponseEntity
-import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Order
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,4 +17,8 @@ class OrderController(private val service: OrderService) {
     @GetMapping
     fun listOrders(@RequestParam(required = false) status: String?) : List<Order> = service.getOrders(status)
 
+    @PatchMapping("/{id}")
+    fun updateProduct(@PathVariable id: Long,
+                      @RequestBody newStatusWrapper: UpdateOrderStatusRequest): Order =
+        service.updateOrderStatus(id, newStatusWrapper)
 }

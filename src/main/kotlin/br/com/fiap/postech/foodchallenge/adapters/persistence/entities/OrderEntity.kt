@@ -23,3 +23,11 @@ data class OrderEntity(
     @Enumerated(EnumType.STRING)
     val status: OrderStatus
 )
+
+fun OrderEntity.updateStatus(newOrder: OrderEntity, orderStatus: OrderStatus): OrderEntity =
+    this.copy(
+        id = newOrder.id,
+        customerId = newOrder.customerId,
+        itemsData = newOrder.itemsData,
+        status = orderStatus,
+    )
