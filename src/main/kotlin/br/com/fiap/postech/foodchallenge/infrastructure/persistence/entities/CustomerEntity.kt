@@ -16,6 +16,6 @@ data class CustomerEntity(
 ) {
     companion object {
         fun fromDomain(domainObject: Customer) =
-            CustomerEntity(cpf = domainObject.cpf, name = domainObject.name, email = domainObject.email)
+            CustomerEntity(cpf = domainObject.cpf.value, name = domainObject.name, email = domainObject.email)
     }
 }
