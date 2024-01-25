@@ -3,12 +3,14 @@ package br.com.fiap.postech.foodchallenge.application.usecases
 import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidCpfException
 import br.com.fiap.postech.foodchallenge.application.gateways.CustomerGateway
 import br.com.fiap.postech.foodchallenge.application.usecases.customer.IdentifyCustomerInteract
+import br.com.fiap.postech.foodchallenge.domain.entities.CPF
 import br.com.fiap.postech.foodchallenge.domain.entities.Customer
 import br.com.fiap.postech.foodchallenge.domain.exceptions.CustomerNotFoundException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.whenever
 
@@ -26,8 +28,9 @@ class IdentifyCustomerInteractTest {
     @Test
     fun `should return Customer for valid CPF`() {
         val cpf = "12345678901"
-        val expectedCharacter = Customer(cpf = "123.456.789-01", name = "Tanjiro Kamado", email = "tanjiro@kamado.com")
-        whenever(gateway.findByCpf("123.456.789-01")).thenReturn(expectedCharacter)
+        val expectedCharacter =
+            Customer(cpf = CPF("12345678901"), name = "Tanjiro Kamado", email = "tanjiro@kamado.com")
+        whenever(gateway.findByCpf(anyString())).thenReturn(expectedCharacter)
 
         val result = interactor.identify(cpf)
 
