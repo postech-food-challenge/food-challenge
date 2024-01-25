@@ -5,10 +5,11 @@ import br.com.fiap.postech.foodchallenge.domain.entities.Product
 import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 
 class UpdateProductInteract(private val gateway: ProductGateway) {
-    fun updateProduct(id: Long, updatedProduct: Product) =
+    fun updateProduct(id: Long, newProduct: Product) =
         gateway.findById(id)
             ?.let { domainProduct ->
-                domainProduct.update(updatedProduct)
-                gateway.save(domainProduct)
+                domainProduct.update(newProduct).let { updatedProduct ->
+                    gateway.save(updatedProduct)
+                }
             } ?: throw ProductNotFoundException(id)
 }
