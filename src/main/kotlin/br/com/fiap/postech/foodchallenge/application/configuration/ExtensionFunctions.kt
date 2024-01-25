@@ -8,6 +8,7 @@ import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Ord
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.treeToValue
+import java.time.LocalDateTime
 
 fun CustomerRequest.toDomain(): Customer {
     return Customer.createCustomer(this)
@@ -15,10 +16,10 @@ fun CustomerRequest.toDomain(): Customer {
 
 fun OrderEntity.toDomain(objectMapper: ObjectMapper): Order {
     val items: List<OrderItem> = objectMapper.treeToValue(this.itemsData)
-    return Order(this.id, this.customerId, items, this.status)
+    return Order(this.id, this.customerId, items, this.status, this.createdAt)
 }
 
 fun Order.toEntity(objectMapper: ObjectMapper): OrderEntity {
     val itemsData = objectMapper.valueToTree<JsonNode>(this.items)
-    return OrderEntity(this.id, this.customerId, itemsData, this.status)
+    return OrderEntity(this.id, this.customerId, itemsData, this.status, LocalDateTime.now())
 }

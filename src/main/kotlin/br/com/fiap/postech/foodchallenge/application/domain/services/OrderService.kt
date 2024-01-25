@@ -13,6 +13,7 @@ import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.Ord
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderItem
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
 import br.com.fiap.postech.foodchallenge.application.configuration.toEntity
+import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderEntityComparator
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 
@@ -48,13 +49,31 @@ class OrderService(
     }
 
     fun getOrders(status: String?): List<Order> {
+        status ?.let {
+            return findOrdersByGivenStatus(it)
+        }
+        return findOrders();
+    }
+
+    private fun findOrdersByGivenStatus(status: String): List<Order> {
         val orders = status
-            ?.takeIf { it.isNotEmpty() }
+            .takeIf { it.isNotEmpty() }
             ?.let { OrderStatus.validateStatus(it) }
             ?.let { orderRepository.findByStatus(it) }
             ?: orderRepository.findAll()
 
         return orders.takeIf { it.isNotEmpty() }
+            ?.map { it.toDomain(objectMapper) }
+            ?: throw NoObjectFoundException("No orders found.")
+    }
+
+    private fun findOrders(): List<Order> {
+        val orders = orderRepository.findByStatusIn(
+            listOf(OrderStatus.READY, OrderStatus.IN_PREPARATION, OrderStatus.RECEIVED)
+        )
+
+        return orders.takeIf { it.isNotEmpty() }
+            ?.sortedWith(OrderEntityComparator())
             ?.map { it.toDomain(objectMapper) }
             ?: throw NoObjectFoundException("No orders found.")
     }

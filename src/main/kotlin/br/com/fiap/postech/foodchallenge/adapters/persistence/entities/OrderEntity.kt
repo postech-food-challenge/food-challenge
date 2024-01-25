@@ -2,10 +2,12 @@ package br.com.fiap.postech.foodchallenge.adapters.persistence.entities
 
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
 import org.hibernate.annotations.Type
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "orders")
@@ -21,5 +23,9 @@ data class OrderEntity(
     val itemsData: JsonNode,
 
     @Enumerated(EnumType.STRING)
-    val status: OrderStatus
+    val status: OrderStatus,
+
+    @Column(name = "createdAt")
+    @JsonSerialize
+    val createdAt: LocalDateTime
 )
