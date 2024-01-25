@@ -1,12 +1,12 @@
 package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
 
 import LocalDateTimeSerializer
-import br.com.fiap.postech.foodchallenge.adapters.persistence.entities.OrderEntity
-import br.com.fiap.postech.foodchallenge.application.domain.exceptions.InvalidParameterException
 import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus.RECEIVED
+import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidParameterException
+import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.OrderEntity
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ObjectMapper
 import java.time.LocalDateTime
 
 data class Order(
