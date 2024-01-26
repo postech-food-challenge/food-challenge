@@ -18,7 +18,7 @@ data class Order(
 
         fun fromEntity(entity: OrderEntity, objectMapper: ObjectMapper): Order {
             val items: List<OrderItem> = objectMapper.treeToValue(entity.itemsData)
-            return Order(entity.id, entity.customerId?.let { CPF(it) }, items, entity.status)
+            return Order(entity.id, entity.customerCpf?.let { CPF(it) }, items, entity.status)
         }
     }
 }

@@ -15,8 +15,8 @@ data class OrderEntity(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null,
 
-    @Column(name = "customer_id")
-    val customerId: String?,
+    @Column(name = "customer_cpf")
+    val customerCpf: String?,
 
     @Type(JsonType::class)
     @Column(name = "items_data", columnDefinition = "jsonb")
@@ -29,7 +29,7 @@ data class OrderEntity(
         fun fromDomain(domainObject: Order, objectMapper: ObjectMapper): OrderEntity {
             val itemsData = objectMapper.valueToTree<JsonNode>(domainObject.items)
             return OrderEntity(
-                customerId = domainObject.customerCpf?.value,
+                customerCpf = domainObject.customerCpf?.value,
                 itemsData = itemsData,
                 status = domainObject.status
             )
