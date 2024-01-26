@@ -1,6 +1,6 @@
-package br.com.fiap.postech.foodchallenge.infrastructure.controller.dto
+package br.com.fiap.postech.foodchallenge.infrastructure.controller.order
 
-import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
+import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import jakarta.validation.constraints.NotNull
 
 data class UpdateOrderStatusRequest(
