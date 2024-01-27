@@ -11,6 +11,11 @@ data class Order(
     val items: List<OrderItem>,
     val status: OrderStatus
 ) {
+    fun withUpdatedStatus(newStatus: String): Order {
+        val updatedStatus = OrderStatus.validateStatus(newStatus)
+        return this.copy(status = updatedStatus)
+    }
+
     companion object {
         fun createOrder(customerId: CPF?, items: List<OrderItem>): Order {
             return Order(customerCpf = customerId, items = items, status = OrderStatus.RECEIVED)

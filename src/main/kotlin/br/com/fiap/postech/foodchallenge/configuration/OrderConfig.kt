@@ -5,6 +5,7 @@ import br.com.fiap.postech.foodchallenge.application.gateways.OrderGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.ProductGateway
 import br.com.fiap.postech.foodchallenge.application.usecases.order.ListOrdersInteract
 import br.com.fiap.postech.foodchallenge.application.usecases.order.OrderCheckoutInteract
+import br.com.fiap.postech.foodchallenge.application.usecases.order.UpdateOrderStatusInteract
 import br.com.fiap.postech.foodchallenge.infrastructure.gateways.OrderRepositoryGateway
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.OrderRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -23,6 +24,9 @@ class OrderConfig {
 
     @Bean
     fun createListOrdersUseCase(orderGateway: OrderGateway) = ListOrdersInteract(orderGateway)
+
+    @Bean
+    fun createUpdateOrderStatusUseCase(orderGateway: OrderGateway) = UpdateOrderStatusInteract(orderGateway)
 
     @Bean
     fun createOrderGateway(repository: OrderRepository, objectMapper: ObjectMapper): OrderGateway =

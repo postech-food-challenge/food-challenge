@@ -9,4 +9,6 @@ interface OrderGateway {
     fun findAll(): List<Order>
 
     fun findByStatus(status: OrderStatus): List<Order>
+
+    fun findById(id: Long): Order?
 }

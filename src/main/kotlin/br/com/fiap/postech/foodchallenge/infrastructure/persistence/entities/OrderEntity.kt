@@ -29,15 +29,11 @@ data class OrderEntity(
         fun fromDomain(domainObject: Order, objectMapper: ObjectMapper): OrderEntity {
             val itemsData = objectMapper.valueToTree<JsonNode>(domainObject.items)
             return OrderEntity(
+                id = domainObject.id,
                 customerCpf = domainObject.customerCpf?.value,
                 itemsData = itemsData,
                 status = domainObject.status
             )
         }
-
-        fun OrderEntity.updateStatus(newStatus: OrderStatus): OrderEntity =
-            this.copy(
-                status = newStatus,
-            )
     }
 }
