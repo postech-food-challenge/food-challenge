@@ -1,10 +1,11 @@
-package br.com.fiap.postech.foodchallenge.application.domain.model.aggregates
+package br.com.fiap.postech.foodchallenge.domain.entities.order.comparator
 
-import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.OrderEntity
+import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
+import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import java.time.LocalDateTime
 
-class OrderEntityComparator : Comparator<OrderEntity> {
-    override fun compare(order1: OrderEntity, order2: OrderEntity): Int {
+class OrderComparator : Comparator<Order> {
+    override fun compare(order1: Order, order2: Order): Int {
         val statusComparison = compareByStatus(order1.status, order2.status)
         return if (statusComparison != 0) {
             statusComparison

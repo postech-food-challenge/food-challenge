@@ -1,7 +1,9 @@
 package br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities
 
-import br.com.fiap.postech.foodchallenge.application.domain.model.aggregates.OrderStatus
+import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
+import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
@@ -15,8 +17,8 @@ data class OrderEntity(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null,
 
-    @Column(name = "customer_id")
-    val customerId: Long?,
+    @Column(name = "customer_cpf")
+    val customerCpf: String?,
 
     @Type(JsonType::class)
     @Column(name = "items_data", columnDefinition = "jsonb")
@@ -28,9 +30,17 @@ data class OrderEntity(
     @Column(name = "createdAt")
     @JsonSerialize
     val createdAt: LocalDateTime
-)
-
-fun OrderEntity.updateStatus(newStatus: OrderStatus): OrderEntity =
-    this.copy(
-        status = newStatus,
-    )
+) {
+    companion object {
+        fun fromDomain(domainObject: Order, objectMapper: ObjectMapper): OrderEntity {
+            val itemsData = objectMapper.valueToTree<JsonNode>(domainObject.items)
+            return OrderEntity(
+                id = domainObject.id,
+                customerCpf = domainObject.customerCpf?.value,
+                itemsData = itemsData,
+                status = domainObject.status,
+                LocalDateTime.now()
+            )
+        }
+    }
+}
