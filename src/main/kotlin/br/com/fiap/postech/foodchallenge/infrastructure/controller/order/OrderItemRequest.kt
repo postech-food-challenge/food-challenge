@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
 
-data class OrderItemRequest(
+data class  OrderItemRequest(
     @field:NotBlank(message = "Product ID should not be blank")
     val productId: Long,
 
