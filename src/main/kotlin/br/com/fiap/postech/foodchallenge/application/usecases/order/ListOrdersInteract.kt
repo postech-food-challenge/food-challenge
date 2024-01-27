@@ -1,7 +1,6 @@
 package br.com.fiap.postech.foodchallenge.application.usecases.order
 
 import br.com.fiap.postech.foodchallenge.application.gateways.OrderGateway
-import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
 import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import br.com.fiap.postech.foodchallenge.domain.entities.order.comparator.OrderComparator
 import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidParameterException
@@ -14,7 +13,7 @@ class ListOrdersInteract(private val orderGateway: OrderGateway) {
         status ?.let {
             return findOrdersByGivenStatus(it)
         }
-        return findOrders();
+        return findOrders()
     }
 
     private fun findOrdersByGivenStatus(status: String): List<OrderResponse> {
