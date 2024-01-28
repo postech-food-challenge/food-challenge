@@ -44,11 +44,15 @@ Ensure you have the following installed on your local machine:
       ```
 That's it! Your local development environment is set up, and you should be able to test our application.
 
-## Swagger
+## Swagger or Postman
 
 To get a better view of the API endpoint, you can access the swagger endpoint in the following path:
 
     localhost:8080/swagger-ui/index.html
+
+or
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/8557906-a98b0740-f272-48a8-8b2b-373d6440ae9c?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D8557906-a98b0740-f272-48a8-8b2b-373d6440ae9c%26entityType%3Dcollection%26workspaceId%3Da6351687-ea84-4d74-bbd6-491183b035ed)
     
 ## K8s Architecture
 
