@@ -2,7 +2,9 @@ package br.com.fiap.postech.foodchallenge.application.usecases.order
 
 import br.com.fiap.postech.foodchallenge.application.gateways.CustomerGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.OrderGateway
+import br.com.fiap.postech.foodchallenge.application.gateways.PaymentGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.ProductGateway
+import br.com.fiap.postech.foodchallenge.application.usecases.payment.CreatePaymentInteract
 import br.com.fiap.postech.foodchallenge.domain.entities.CPF
 import br.com.fiap.postech.foodchallenge.domain.entities.Category
 import br.com.fiap.postech.foodchallenge.domain.entities.Customer
@@ -27,6 +29,7 @@ class OrderCheckoutInteractTest {
     private lateinit var orderGateway: OrderGateway
     private lateinit var customerGateway: CustomerGateway
     private lateinit var productGateway: ProductGateway
+    private lateinit var createPaymentInteract: CreatePaymentInteract
     private lateinit var orderCheckoutInteract: OrderCheckoutInteract
 
     @BeforeEach
@@ -34,7 +37,8 @@ class OrderCheckoutInteractTest {
         orderGateway = mock()
         customerGateway = mock()
         productGateway = mock()
-        orderCheckoutInteract = OrderCheckoutInteract(orderGateway, customerGateway, productGateway)
+        createPaymentInteract = mock()
+        orderCheckoutInteract = OrderCheckoutInteract(orderGateway, customerGateway, productGateway, createPaymentInteract)
     }
 
     @Test

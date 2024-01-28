@@ -19,7 +19,7 @@ class PaymentController(
 
     @PutMapping("/webhook")
     fun updatePaymentStatus(@RequestBody request: PaymentRequest) =
-        updatePaymentInteract.updatePayment(request.let { request -> Payment.fromRequest(request) })
+        updatePaymentInteract.updatePayment(request.let { Payment.fromRequest(request) })
 
 
     @GetMapping("/{orderId}")

@@ -21,7 +21,7 @@ class FindPaymentByOrderInteractTest {
 
     @Test
     fun `should successfully get a payment`() {
-        val payment = Payment(1L , true)
+        val payment = Payment(orderId = 1L , paymentValidated = true)
         whenever(gateway.findByOrderId(payment.orderId)).thenReturn(payment)
 
         val result = findPaymentByOrderIdInteract.findPaymentByOrderId(payment.orderId)

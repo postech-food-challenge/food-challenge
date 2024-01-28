@@ -4,7 +4,7 @@ import br.com.fiap.postech.foodchallenge.domain.entities.Payment
 
 data class PaymentResponse(
     val orderId: Long,
-    val paymentValidated: Boolean
+    val paymentValidated: Boolean?
 ) {
 
     companion object {
