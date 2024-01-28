@@ -22,23 +22,35 @@ Ensure you have the following installed on your local machine:
     cd food-challenge
     ```
 
-2. **Docker Compose:**
-    We're using docker-compose to run our PostgreSQL database and application. To start both containers for the first time, ensure Docker is running and execute the following command:
+2. **Configure and run k8s:**
+    In order to run the application locally, a few steps need to be performed:
    
-    ```bash
-    docker-compose up -d --build
-    ```
-    If you have already built the application and want to run it again, use the following command:
-
-    ```bash
-    docker-compose up -d
-    ```
-
-That's it! Your local development environment is set up, and you should be able to start working on the project.
+   1. **Install minikube:** First, go to https://minikube.sigs.k8s.io/docs/start/ and install it according to your OS.
+   2. **Start Cluster:** After correctly install run minikube to start a new k8s cluster, using the following command.
+      ```bash
+       minikube start
+       ```
+   3. **Start database:** With the cluster correctly running, start the DB pods using:
+       ```bash
+       kubectl apply -f ./k8s/db
+       ```
+   4. **Start the application:** Then, you will need to start the application by running:
+       ```bash
+       kubectl apply -f ./k8s/app
+       ```
+   5. **Expose Pods:** Since Minikube does not expose automatically the services ips, you will need to run:
+      ```bash
+       minikube tunnel
+      ```
+That's it! Your local development environment is set up, and you should be able to test our application.
 
 ## Swagger
 
 To get a better view of the API endpoint, you can access the swagger endpoint in the following path:
 
     localhost:8080/swagger-ui/index.html
+    
+## K8s Architecture
+
+![image](./imgs/k8s-architecture.png)
     
