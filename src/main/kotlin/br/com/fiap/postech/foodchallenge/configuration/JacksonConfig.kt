@@ -1,13 +1,13 @@
 package br.com.fiap.postech.foodchallenge.configuration
 
-import LocalDateTimeSerializer
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.time.LocalDateTime
 
 @Configuration
 class JacksonConfig {
@@ -24,7 +24,7 @@ class JacksonConfig {
                     .configure(KotlinFeature.SingletonSupport, true)
                     .configure(KotlinFeature.StrictNullChecks, false)
                     .build()
-                    .addSerializer(LocalDateTime::class.java, LocalDateTimeSerializer())
             )
+            .registerModules(JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 }
