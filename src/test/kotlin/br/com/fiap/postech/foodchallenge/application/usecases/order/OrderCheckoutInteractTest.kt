@@ -21,6 +21,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
+import java.time.LocalDateTime
 
 class OrderCheckoutInteractTest {
 
@@ -43,7 +44,7 @@ class OrderCheckoutInteractTest {
         val orderItemRequest = OrderItemRequest(1L, 2, "Extra cheese", true)
         val checkoutRequest = CheckoutRequest("12345678901", listOf(orderItemRequest))
         val customer = Customer(CPF("12345678901"), "John Doe", "john@example.com")
-        val order = Order(1L, CPF("12345678901"), listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED)
+        val order = Order(1L, CPF("12345678901"), listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED, LocalDateTime.now())
 
         whenever(productGateway.findById(1L)).thenReturn(product)
         whenever(customerGateway.findByCpf("12345678901")).thenReturn(customer)
@@ -72,7 +73,7 @@ class OrderCheckoutInteractTest {
         val product = Product(1L, "Burger", "Delicious", "image.png", 10, Category.MAIN)
         val orderItemRequest = OrderItemRequest(1L, 2, "Extra cheese", true)
         val checkoutRequest = CheckoutRequest(null, listOf(orderItemRequest))
-        val order = Order(1L, null, listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED)
+        val order = Order(1L, null, listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED, LocalDateTime.now())
 
         whenever(productGateway.findById(1L)).thenReturn(product)
         whenever(orderGateway.save(any())).thenReturn(order)

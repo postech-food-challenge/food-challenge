@@ -20,7 +20,10 @@ class OrderRepositoryGateway(
         orderRepository.findAll().mapNotNull { Order.fromEntity(it, objectMapper) }
 
     override fun findByStatus(status: OrderStatus) =
-        orderRepository.findByStatus(status).map { Order.fromEntity(it, objectMapper) }
+        orderRepository.findByStatus(status.name).map { Order.fromEntity(it, objectMapper) }
+
+    override fun findActiveOrdersSorted() =
+        orderRepository.findActiveOrdersSorted().map { Order.fromEntity(it, objectMapper) }
 
     override fun findById(id: Long): Order? {
         val orderEntity = orderRepository.findById(id).orElse(null) ?: return null

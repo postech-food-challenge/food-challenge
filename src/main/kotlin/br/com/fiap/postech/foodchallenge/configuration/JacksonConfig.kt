@@ -1,6 +1,8 @@
 package br.com.fiap.postech.foodchallenge.configuration
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -23,5 +25,6 @@ class JacksonConfig {
                     .configure(KotlinFeature.StrictNullChecks, false)
                     .build()
             )
+            .registerModules(JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 }

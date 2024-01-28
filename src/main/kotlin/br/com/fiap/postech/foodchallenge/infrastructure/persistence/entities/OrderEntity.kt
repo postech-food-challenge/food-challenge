@@ -1,13 +1,13 @@
 package br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities
 
 import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
-import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
 import org.hibernate.annotations.Type
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "orders")
@@ -22,8 +22,10 @@ data class OrderEntity(
     @Column(name = "items_data", columnDefinition = "jsonb")
     val itemsData: JsonNode,
 
-    @Enumerated(EnumType.STRING)
-    val status: OrderStatus
+    val status: String,
+
+    @Column(name = "createdAt")
+    val createdAt: LocalDateTime
 ) {
     companion object {
         fun fromDomain(domainObject: Order, objectMapper: ObjectMapper): OrderEntity {
@@ -32,7 +34,8 @@ data class OrderEntity(
                 id = domainObject.id,
                 customerCpf = domainObject.customerCpf?.value,
                 itemsData = itemsData,
-                status = domainObject.status
+                status = domainObject.status.name,
+                domainObject.createdAt
             )
         }
     }
