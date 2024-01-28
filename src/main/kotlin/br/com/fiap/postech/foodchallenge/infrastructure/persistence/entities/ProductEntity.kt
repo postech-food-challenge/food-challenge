@@ -4,6 +4,7 @@ import br.com.fiap.postech.foodchallenge.domain.entities.Product
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "products")
 data class ProductEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

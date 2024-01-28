@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
+import java.time.LocalDateTime
 
 class FindPaymentByOrderInteractTest {
 
@@ -31,6 +32,7 @@ class FindPaymentByOrderInteractTest {
             CPF("12345678901"),
             listOf(OrderItem(1L, 2, "Hamburguer", true)),
             OrderStatus.RECEIVED,
+            LocalDateTime.now(),
             false,
             20
         )
@@ -48,6 +50,7 @@ class FindPaymentByOrderInteractTest {
             CPF("12345678901"),
             listOf(OrderItem(1L, 2, "Hamburguer", true)),
             OrderStatus.RECEIVED,
+            LocalDateTime.now(),
             false,
             20
         )

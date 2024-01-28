@@ -4,12 +4,14 @@ import br.com.fiap.postech.foodchallenge.domain.entities.CPF
 import br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities.OrderEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.treeToValue
+import java.time.LocalDateTime
 
 data class Order(
     val id: Long? = null,
     val customerCpf: CPF? = null,
     val items: List<OrderItem>,
     val status: OrderStatus,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
     val paymentValidated: Boolean? = null,
     val price: Int? = null
 ) {
@@ -39,7 +41,8 @@ data class Order(
                 entity.id,
                 entity.customerCpf?.let { CPF(it) },
                 items,
-                entity.status,
+                OrderStatus.valueOf(entity.status),
+                entity.createdAt,
                 entity.paymentValidated,
                 entity.price
             )

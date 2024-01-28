@@ -6,17 +6,16 @@ import br.com.fiap.postech.foodchallenge.domain.exceptions.NoObjectFoundExceptio
 import br.com.fiap.postech.foodchallenge.infrastructure.controller.order.OrderResponse
 
 class ListOrdersInteract(private val orderGateway: OrderGateway) {
+
     fun getOrders(status: String?): List<OrderResponse> {
-        val orders = status
-            ?.takeIf { it.isNotEmpty() }
-            ?.let { OrderStatus.validateStatus(it) }
-            ?.let { orderGateway.findByStatus(it) }
-            ?: orderGateway.findAll()
+        val orders = when {
+            status.isNullOrEmpty() -> orderGateway.findActiveOrdersSorted()
+            else -> OrderStatus.validateStatus(status)
+                .let { orderGateway.findByStatus(it) }
+        }
 
         return orders.takeIf { it.isNotEmpty() }
-            ?.mapNotNull { order ->
-                order.let { OrderResponse.fromDomain(it) }
-            }
+            ?.mapNotNull { order -> OrderResponse.fromDomain(order) }
             ?: throw NoObjectFoundException("No orders found.")
     }
 }

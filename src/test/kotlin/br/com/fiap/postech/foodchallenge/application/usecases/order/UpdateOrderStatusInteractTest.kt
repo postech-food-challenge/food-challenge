@@ -14,6 +14,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import java.time.LocalDateTime
 
 class UpdateOrderStatusInteractTest {
 
@@ -29,7 +30,9 @@ class UpdateOrderStatusInteractTest {
     @Test
     fun `should update order status when order exists`() {
         val orderId = 1L
-        val existingOrder = Order(id = orderId, items = listOf(), status = OrderStatus.RECEIVED)
+        val existingOrder = Order(id = orderId, items = listOf(), status = OrderStatus.RECEIVED,
+            createdAt = LocalDateTime.now()
+        )
         val newStatus = OrderStatus.COMPLETED.name
         val updatedOrder = existingOrder.withUpdatedStatus(newStatus)
 
@@ -58,7 +61,8 @@ class UpdateOrderStatusInteractTest {
     @Test
     fun `should throw InvalidParameterException for invalid order status`() {
         val orderId = 1L
-        val existingOrder = Order(id = orderId, items = listOf(), status = OrderStatus.RECEIVED)
+        val existingOrder = Order(id = orderId, items = listOf(), status = OrderStatus.RECEIVED,
+            createdAt = LocalDateTime.now())
         val invalidStatus = "INVALID_STATUS"
 
         whenever(orderGateway.findById(orderId)).thenReturn(existingOrder)

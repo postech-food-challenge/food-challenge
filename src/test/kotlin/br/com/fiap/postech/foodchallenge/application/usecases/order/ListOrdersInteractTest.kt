@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
+import java.time.LocalDateTime
 
 class ListOrdersInteractTest {
 
@@ -29,8 +30,8 @@ class ListOrdersInteractTest {
     fun `should return orders for a specific status`() {
         val status = OrderStatus.RECEIVED
         val orders = listOf(
-            Order(1L, CPF("12345678901"), createOrderItems(), OrderStatus.RECEIVED),
-            Order(2L, CPF("23456789012"), createOrderItems(), OrderStatus.RECEIVED)
+            Order(1L, CPF("12345678901"), createOrderItems(), OrderStatus.RECEIVED, LocalDateTime.now()),
+            Order(2L, CPF("23456789012"), createOrderItems(), OrderStatus.RECEIVED, LocalDateTime.now())
         )
         whenever(orderGateway.findByStatus(status)).thenReturn(orders)
 
@@ -41,13 +42,15 @@ class ListOrdersInteractTest {
     }
 
     @Test
-    fun `should return all orders when no status is provided`() {
+    fun `should return only RECEIVED, IN_PREPARATION or READY orders when no status is provided`() {
         val orders = listOf(
-            Order(1L, CPF("12345678901"), createOrderItems(), OrderStatus.RECEIVED),
-            Order(2L, CPF("23456789012"), createOrderItems(), OrderStatus.IN_PREPARATION),
-            Order(3L, CPF("34567890123"), createOrderItems(), OrderStatus.READY)
+            Order(1L, CPF("12345678901"), createOrderItems(), OrderStatus.RECEIVED, LocalDateTime.now()),
+            Order(2L, CPF("23456789012"), createOrderItems(), OrderStatus.IN_PREPARATION, LocalDateTime.now()),
+            Order(3L, CPF("34567890123"), createOrderItems(), OrderStatus.READY, LocalDateTime.now())
         )
-        whenever(orderGateway.findAll()).thenReturn(orders)
+        whenever(orderGateway
+            .findActiveOrdersSorted())
+            .thenReturn(orders)
 
         val result = listOrdersInteract.getOrders(null)
 
