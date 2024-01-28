@@ -1,10 +1,8 @@
 package br.com.fiap.postech.foodchallenge.infrastructure.persistence.entities
 
 import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
-import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
 import jakarta.persistence.GenerationType.IDENTITY
@@ -24,8 +22,7 @@ data class OrderEntity(
     @Column(name = "items_data", columnDefinition = "jsonb")
     val itemsData: JsonNode,
 
-    @Enumerated(EnumType.STRING)
-    val status: OrderStatus,
+    val status: String,
 
     @Column(name = "createdAt")
     val createdAt: LocalDateTime
@@ -37,7 +34,7 @@ data class OrderEntity(
                 id = domainObject.id,
                 customerCpf = domainObject.customerCpf?.value,
                 itemsData = itemsData,
-                status = domainObject.status,
+                status = domainObject.status.name,
                 domainObject.createdAt
             )
         }

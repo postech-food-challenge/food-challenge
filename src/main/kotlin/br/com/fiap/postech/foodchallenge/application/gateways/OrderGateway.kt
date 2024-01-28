@@ -10,7 +10,7 @@ interface OrderGateway {
 
     fun findByStatus(status: OrderStatus): List<Order>
 
-    fun findInStatus(status: List<OrderStatus>): List<Order>
+    fun findActiveOrdersSorted(): List<Order>
 
     fun findById(id: Long): Order?
 }

@@ -49,7 +49,7 @@ class ListOrdersInteractTest {
             Order(3L, CPF("34567890123"), createOrderItems(), OrderStatus.READY, LocalDateTime.now())
         )
         whenever(orderGateway
-            .findInStatus(listOf(OrderStatus.READY, OrderStatus.IN_PREPARATION, OrderStatus.RECEIVED)))
+            .findActiveOrdersSorted())
             .thenReturn(orders)
 
         val result = listOrdersInteract.getOrders(null)
