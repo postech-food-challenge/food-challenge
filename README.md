@@ -50,10 +50,25 @@ To get a better view of the API endpoint, you can access the swagger endpoint in
 
     localhost:8080/swagger-ui/index.html
 
-or
+_or_
+
+Use our postman collection to populate the database and perform some tests. To do that, follow the next steps:
+
+1. **Postman collection:** First, you will need to download the following collection:
+
 
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/8557906-a98b0740-f272-48a8-8b2b-373d6440ae9c?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D8557906-a98b0740-f272-48a8-8b2b-373d6440ae9c%26entityType%3Dcollection%26workspaceId%3Da6351687-ea84-4d74-bbd6-491183b035ed)
-    
+
+2.  **Run folders:** After downloading the collection, first you will need to create the products. To do that, go to the PRODUCT folder and execute the `RUN FOLDER` command.
+   ![image](./imgs/run_folder.png)
+
+
+3. **Run requests:** Then, select all desired products and click on the `Run food-challenge` button.
+   ![image](./imgs/run_food-challenge.png)
+Repeat the same process for the customer folder, selection all desired requests.
+
+
+4. **Start testing:** With these information, you can start testing by creating orders, changing the status of the order, listing all orders and more.
 ## K8s Architecture
 
 ![image](./imgs/k8s-architecture.png)
