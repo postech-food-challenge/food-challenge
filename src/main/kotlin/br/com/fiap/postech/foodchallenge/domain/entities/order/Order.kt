@@ -11,7 +11,7 @@ data class Order(
     val customerCpf: CPF? = null,
     val items: List<OrderItem>,
     val status: OrderStatus,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime = LocalDateTime.now()
 ) {
     fun withUpdatedStatus(newStatus: String): Order {
         val updatedStatus = OrderStatus.validateStatus(newStatus)
@@ -20,12 +20,12 @@ data class Order(
 
     companion object {
         fun createOrder(customerId: CPF?, items: List<OrderItem>): Order {
-            return Order(customerCpf = customerId, items = items, status = OrderStatus.RECEIVED, createdAt = LocalDateTime.now())
+            return Order(customerCpf = customerId, items = items, status = OrderStatus.RECEIVED)
         }
 
         fun fromEntity(entity: OrderEntity, objectMapper: ObjectMapper): Order {
             val items: List<OrderItem> = objectMapper.treeToValue(entity.itemsData)
-            return Order(entity.id, entity.customerCpf?.let { CPF(it) }, items, entity.status, LocalDateTime.now())
+            return Order(entity.id, entity.customerCpf?.let { CPF(it) }, items, entity.status, entity.createdAt)
         }
     }
 }

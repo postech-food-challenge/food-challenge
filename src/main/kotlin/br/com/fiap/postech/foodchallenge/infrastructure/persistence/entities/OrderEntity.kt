@@ -28,7 +28,6 @@ data class OrderEntity(
     val status: OrderStatus,
 
     @Column(name = "createdAt")
-    @JsonSerialize
     val createdAt: LocalDateTime
 ) {
     companion object {
@@ -39,7 +38,7 @@ data class OrderEntity(
                 customerCpf = domainObject.customerCpf?.value,
                 itemsData = itemsData,
                 status = domainObject.status,
-                LocalDateTime.now()
+                domainObject.createdAt
             )
         }
     }
