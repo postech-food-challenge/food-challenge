@@ -30,11 +30,11 @@ class OrderCheckoutInteract(
         }
 
         val customerCpf = request.cpf?.let(customerGateway::findByCpf)?.cpf
-        val order = Order.createOrder(customerCpf, orderItems).run {
-            orderGateway.save(this)
-        }.also { createPaymentInteract.createPayment(it) }
+        val price = createPaymentInteract.createPayment(orderItems)
 
-        return order.let {
+        return Order.createOrder(customerCpf, orderItems, price).run {
+            orderGateway.save(this)
+        }.let {
             OrderResponse.fromDomain(it) ?: throw IllegalStateException("Saved order ID should not be null.")
         }
     }

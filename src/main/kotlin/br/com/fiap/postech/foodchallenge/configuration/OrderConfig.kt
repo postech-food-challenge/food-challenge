@@ -2,7 +2,6 @@ package br.com.fiap.postech.foodchallenge.configuration
 
 import br.com.fiap.postech.foodchallenge.application.gateways.CustomerGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.OrderGateway
-import br.com.fiap.postech.foodchallenge.application.gateways.PaymentGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.ProductGateway
 import br.com.fiap.postech.foodchallenge.application.usecases.order.ListOrdersInteract
 import br.com.fiap.postech.foodchallenge.application.usecases.order.OrderCheckoutInteract

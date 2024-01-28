@@ -1,23 +1,21 @@
 package br.com.fiap.postech.foodchallenge.application.usecases.payment
 
-import br.com.fiap.postech.foodchallenge.application.gateways.PaymentGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.ProductGateway
-import br.com.fiap.postech.foodchallenge.domain.entities.Payment
-import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
+import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderItem
 
-class CreatePaymentInteract(private val paymentGateway: PaymentGateway, private val productGateway: ProductGateway) {
-    fun createPayment(order: Order) {
-        val amount = calculatePaymentAmount(order)
+class CreatePaymentInteract(private val productGateway: ProductGateway) {
 
-        //integrar com mercado e lançar um erro caso não seja possível:
+    fun createPayment(orderItems: List<OrderItem>) : Int {
+        val price = calculatePaymentAmount(orderItems)
 
-        paymentGateway.save(Payment.createPayment(order.id, false, amount))
+        //integracao com mercado pago
+
+        return price
     }
-
-    private fun calculatePaymentAmount(order: Order) : Int {
+    private fun calculatePaymentAmount(orderItems: List<OrderItem>) : Int {
         var totalAmount = 0
 
-        order.items.forEach { orderItem ->
+        orderItems.forEach { orderItem ->
             val product = productGateway.findById(orderItem.productId)
 
             if (product != null) {

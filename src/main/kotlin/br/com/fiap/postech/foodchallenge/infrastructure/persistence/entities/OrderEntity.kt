@@ -23,7 +23,11 @@ data class OrderEntity(
     val itemsData: JsonNode,
 
     @Enumerated(EnumType.STRING)
-    val status: OrderStatus
+    val status: OrderStatus,
+
+    val paymentValidated: Boolean? = null,
+
+    val price: Int? = null
 ) {
     companion object {
         fun fromDomain(domainObject: Order, objectMapper: ObjectMapper): OrderEntity {
@@ -32,7 +36,9 @@ data class OrderEntity(
                 id = domainObject.id,
                 customerCpf = domainObject.customerCpf?.value,
                 itemsData = itemsData,
-                status = domainObject.status
+                status = domainObject.status,
+                paymentValidated = domainObject.paymentValidated,
+                price = domainObject.price
             )
         }
     }

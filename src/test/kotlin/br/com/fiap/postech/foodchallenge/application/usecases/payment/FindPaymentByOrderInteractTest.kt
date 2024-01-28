@@ -1,7 +1,11 @@
 package br.com.fiap.postech.foodchallenge.application.usecases.payment
 
-import br.com.fiap.postech.foodchallenge.application.gateways.PaymentGateway
+import br.com.fiap.postech.foodchallenge.application.gateways.OrderGateway
+import br.com.fiap.postech.foodchallenge.domain.entities.CPF
 import br.com.fiap.postech.foodchallenge.domain.entities.Payment
+import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
+import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderItem
+import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -10,7 +14,7 @@ import org.mockito.kotlin.whenever
 
 class FindPaymentByOrderInteractTest {
 
-    private lateinit var gateway: PaymentGateway
+    private lateinit var gateway: OrderGateway
     private lateinit var findPaymentByOrderIdInteract: FindPaymentByOrderIdInteract
 
     @BeforeEach
@@ -21,11 +25,11 @@ class FindPaymentByOrderInteractTest {
 
     @Test
     fun `should successfully get a payment`() {
-        val payment = Payment(orderId = 1L , paymentValidated = true)
-        whenever(gateway.findByOrderId(payment.orderId)).thenReturn(payment)
+        val order = Order(1L, CPF("12345678901"), listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED, false, 20)
+        whenever(gateway.findById(1L)).thenReturn(order)
 
-        val result = findPaymentByOrderIdInteract.findPaymentByOrderId(payment.orderId)
+        val result = findPaymentByOrderIdInteract.findPaymentByOrderId(1L)
 
-        assertEquals(payment, result)
+        assertEquals(order, result)
     }
 }
