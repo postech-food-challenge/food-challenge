@@ -73,6 +73,9 @@ Repeat the same process for the customer folder, selection all desired requests.
 
 ![image](./imgs/k8s-architecture.png)
 
-## Architecture Video
+## Kubernetes Architecture Video
 The complete explanation and other details can be seen [here](https://youtu.be/I7kEGNdaUYI)
-    
+
+## Software Structure
+The architecture implemented in our software is the Clean Architecture. Below is a drawing representing this architecture:
+![img.png](imgs/img.png)
