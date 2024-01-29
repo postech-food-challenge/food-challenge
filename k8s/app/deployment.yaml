@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: food-challenge
-          image: rafaelfaroque/food-challenge:v4
+          image: ddonadelli/food-challenge-app:latest
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
