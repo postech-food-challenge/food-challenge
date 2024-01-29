@@ -25,7 +25,15 @@ data class OrderEntity(
     val status: String,
 
     @Column(name = "createdAt")
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+
+    val paymentValidated: Boolean? = null,
+
+    val price: Int? = null,
+
+    val qrData: String? = null,
+
+    val inStoreOrderId: String? = null
 ) {
     companion object {
         fun fromDomain(domainObject: Order, objectMapper: ObjectMapper): OrderEntity {
@@ -35,7 +43,11 @@ data class OrderEntity(
                 customerCpf = domainObject.customerCpf?.value,
                 itemsData = itemsData,
                 status = domainObject.status.name,
-                domainObject.createdAt
+                domainObject.createdAt,
+                paymentValidated = domainObject.paymentValidated,
+                price = domainObject.price,
+                qrData = domainObject.qrData,
+                inStoreOrderId = domainObject.inStoreOrderId
             )
         }
     }

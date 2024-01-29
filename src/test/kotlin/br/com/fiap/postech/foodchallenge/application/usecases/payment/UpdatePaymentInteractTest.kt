@@ -2,6 +2,7 @@ package br.com.fiap.postech.foodchallenge.application.usecases.payment
 
 import br.com.fiap.postech.foodchallenge.application.gateways.OrderGateway
 import br.com.fiap.postech.foodchallenge.domain.entities.CPF
+import br.com.fiap.postech.foodchallenge.domain.entities.Payment
 import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
 import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderItem
 import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
@@ -14,48 +15,56 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import java.time.LocalDateTime
 
-class FindPaymentByOrderInteractTest {
+class UpdatePaymentInteractTest {
 
-    private lateinit var gateway: OrderGateway
-    private lateinit var findPaymentByOrderIdInteract: FindPaymentByOrderIdInteract
+    private lateinit var updatePaymentInteract: UpdatePaymentInteract
+    private lateinit var orderGateway: OrderGateway
 
     @BeforeEach
     fun setUp() {
-        gateway = mock()
-        findPaymentByOrderIdInteract = FindPaymentByOrderIdInteract(gateway)
+        orderGateway = mock()
+        updatePaymentInteract = UpdatePaymentInteract(orderGateway)
     }
 
     @Test
-    fun `should successfully get a payment`() {
+    fun `should successfully update a payment`() {
         val order = Order(
             1L,
             CPF("12345678901"),
             listOf(OrderItem(1L, 2, "Hamburguer", true)),
             OrderStatus.RECEIVED,
             LocalDateTime.now(),
-            false,
+            true,
             20
         )
-        whenever(gateway.findById(1L)).thenReturn(order)
 
-        val result = findPaymentByOrderIdInteract.findPaymentByOrderId(1L)
+        val payment = Payment(1L, true)
 
-        assertEquals(order, result)
+        whenever(orderGateway.findById(1L)).thenReturn(order)
+        whenever(orderGateway.save(order)).thenReturn(order)
+
+        val result = updatePaymentInteract.updatePaymentStatusByOrderId(payment)
+
+        assertEquals(order.paymentValidated, result.paymentValidated)
     }
 
     @Test
-    fun `should throw exception when getting a payment and the order does not exist`() {
+    fun `should throw exception when updating a order that does not exist`() {
         val order = Order(
             1L,
             CPF("12345678901"),
             listOf(OrderItem(1L, 2, "Hamburguer", true)),
             OrderStatus.RECEIVED,
             LocalDateTime.now(),
-            false,
+            true,
             20
         )
-        whenever(gateway.findById(1L)).thenReturn(order)
 
-        assertThrows<OrderNotFoundException> { findPaymentByOrderIdInteract.findPaymentByOrderId(2L) }
+        val payment = Payment(2L, true)
+
+        whenever(orderGateway.findById(1L)).thenReturn(order)
+        whenever(orderGateway.save(order)).thenReturn(order)
+
+        assertThrows<OrderNotFoundException> { updatePaymentInteract.updatePaymentStatusByOrderId(payment) }
     }
 }

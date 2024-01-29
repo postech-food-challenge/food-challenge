@@ -6,8 +6,8 @@ import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductAlreadyExistsE
 
 class CreateProductInteract(private val gateway: ProductGateway) {
     fun createProduct(product: Product) =
-        gateway.findByName(product.name)
-            ?.let { throw ProductAlreadyExistsException(product.name) }
-            ?: gateway.save(product)
+        gateway.findByName(product.name)?.let { throw ProductAlreadyExistsException(product.name) } ?: gateway.save(
+            product
+        )
 
 }
