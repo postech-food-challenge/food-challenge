@@ -1,11 +1,6 @@
 package br.com.fiap.postech.foodchallenge.infrastructure.controller
 
-import br.com.fiap.postech.foodchallenge.domain.exceptions.CustomerAlreadyRegisteredException
-import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidCpfException
-import br.com.fiap.postech.foodchallenge.domain.exceptions.InvalidParameterException
-import br.com.fiap.postech.foodchallenge.domain.exceptions.NoObjectFoundException
-import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductAlreadyExistsException
-import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
+import br.com.fiap.postech.foodchallenge.domain.exceptions.*
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -25,7 +20,7 @@ class ErrorHandlingController {
         ex.bindingResult.fieldErrors.associate { it.field to it.defaultMessage }
             .let { ResponseEntity(it, HttpStatus.BAD_REQUEST) }
 
-    @ExceptionHandler(ProductNotFoundException::class, NoObjectFoundException::class)
+    @ExceptionHandler(ProductNotFoundException::class, NoObjectFoundException::class, OrderNotFoundException::class)
     fun handleNotFound(ex: RuntimeException): ResponseEntity<String> =
         ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
 

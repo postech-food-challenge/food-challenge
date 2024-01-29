@@ -1,5 +1,6 @@
 package br.com.fiap.postech.foodchallenge.configuration
 
+import br.com.fiap.postech.foodchallenge.application.gateways.MercadoPagoGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.OrderGateway
 import br.com.fiap.postech.foodchallenge.application.gateways.ProductGateway
 import br.com.fiap.postech.foodchallenge.application.usecases.payment.CreatePaymentInteract
@@ -12,8 +13,8 @@ import org.springframework.context.annotation.Configuration
 class PaymentConfig {
 
     @Bean
-    fun createPaymentUseCases(productGateway: ProductGateway) =
-        CreatePaymentInteract(productGateway)
+    fun createPaymentUseCases(productGateway: ProductGateway, mercadoPagoGateway: MercadoPagoGateway) =
+        CreatePaymentInteract(productGateway, mercadoPagoGateway)
 
     @Bean
     fun createUpdatePaymentUseCases(orderGateway: OrderGateway) =

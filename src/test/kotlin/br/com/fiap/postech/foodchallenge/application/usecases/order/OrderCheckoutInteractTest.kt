@@ -14,6 +14,7 @@ import br.com.fiap.postech.foodchallenge.domain.entities.order.OrderStatus
 import br.com.fiap.postech.foodchallenge.domain.exceptions.ProductNotFoundException
 import br.com.fiap.postech.foodchallenge.infrastructure.controller.order.CheckoutRequest
 import br.com.fiap.postech.foodchallenge.infrastructure.controller.order.OrderItemRequest
+import br.com.fiap.postech.foodchallenge.infrastructure.controller.payment.CreatePaymentResponse
 import org.hibernate.validator.internal.util.Contracts.assertNotNull
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -48,10 +49,12 @@ class OrderCheckoutInteractTest {
         val checkoutRequest = CheckoutRequest("12345678901", listOf(orderItemRequest))
         val customer = Customer(CPF("12345678901"), "John Doe", "john@example.com")
         val order = Order(1L, CPF("12345678901"), listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED, LocalDateTime.now())
+        val createPaymentResponse = CreatePaymentResponse(10, "AA", "123")
 
         whenever(productGateway.findById(1L)).thenReturn(product)
         whenever(customerGateway.findByCpf("12345678901")).thenReturn(customer)
         whenever(orderGateway.save(any())).thenReturn(order)
+        whenever(createPaymentInteract.createPayment(any())).thenReturn(createPaymentResponse)
 
         val result = orderCheckoutInteract.checkout(checkoutRequest)
 
@@ -77,9 +80,11 @@ class OrderCheckoutInteractTest {
         val orderItemRequest = OrderItemRequest(1L, 2, "Extra cheese", true)
         val checkoutRequest = CheckoutRequest(null, listOf(orderItemRequest))
         val order = Order(1L, null, listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED, LocalDateTime.now())
+        val createPaymentResponse = CreatePaymentResponse(10, "AA", "123")
 
         whenever(productGateway.findById(1L)).thenReturn(product)
         whenever(orderGateway.save(any())).thenReturn(order)
+        whenever(createPaymentInteract.createPayment(any())).thenReturn(createPaymentResponse)
 
         val result = orderCheckoutInteract.checkout(checkoutRequest)
 
