@@ -72,4 +72,7 @@ Repeat the same process for the customer folder, selection all desired requests.
 ## K8s Architecture
 
 ![image](./imgs/k8s-architecture.png)
+
+## Architecture Video
+The complete explanation and other details can be seen [here](https://youtu.be/I7kEGNdaUYI)
     
