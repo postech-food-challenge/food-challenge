@@ -1,5 +1,7 @@
 # Food Challenge
 
+- Actions
+
 ## Prerequisites
 
 Ensure you have the following installed on your local machine:
