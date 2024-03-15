@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
+    id("org.sonarqube") version "4.4.1.3373"
 }
 
 group = "br.com.fiap.postech"
@@ -17,6 +18,14 @@ java {
 
 repositories {
     mavenCentral()
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "postech-food-challenge_food-challenge")
+        property("sonar.organization", "postech-food-challenge")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 dependencies {
