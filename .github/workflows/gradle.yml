@@ -29,15 +29,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache SonarQube packages
-        uses: actions/cache@v1
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Cache Gradle packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -52,9 +52,9 @@ jobs:
 
       - name: Build and analyze
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew build sonar --debug
+        run: ./gradlew build sonar --info
 
   dependency-submission:
     needs: build
