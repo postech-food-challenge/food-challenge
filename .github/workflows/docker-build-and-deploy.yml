@@ -1,4 +1,4 @@
-name: Build and Push Docker image to AWS ECR
+name: Build and Deploy Application
 
 on:
   push:
@@ -41,3 +41,13 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy on eks
+        environment: Deploy
+        env:
+          EKS_NAME: ${{ secrets.EKS_NAME }}
+          EKS_REGION: ${{ secrets.ESK_REGION }}
+          EKS_CLUSTER_CONTEXT: ${{ secrets.EKS_CLUSTER_CONTEXT }}
+        run: |
+          aws eks --region $EKS_REGION update-kubeconfig --name $EKS_NAME
+          kubectl --context $EKS_CLUSTER_CONTEXT apply -f k8s/app
