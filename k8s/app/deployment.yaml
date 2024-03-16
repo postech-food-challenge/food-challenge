@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: food-challenge
-          image: ddonadelli/food-challenge-app:latest
+          image: 975050174690.dkr.ecr.us-east-1.amazonaws.com/tech-challenge:latest
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -26,4 +26,4 @@ spec:
           resources:
             requests:
               cpu: "250m"
-              memory: "512Mi"
+              memory: "256Mi"
