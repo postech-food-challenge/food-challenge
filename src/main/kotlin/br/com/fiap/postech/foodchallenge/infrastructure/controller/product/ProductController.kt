@@ -7,16 +7,7 @@ import br.com.fiap.postech.foodchallenge.application.usecases.product.UpdateProd
 import br.com.fiap.postech.foodchallenge.domain.entities.Product
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.ACCEPTED
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/products")

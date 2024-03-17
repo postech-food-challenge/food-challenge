@@ -36,10 +36,9 @@ class OrderCheckoutInteractTest {
     @BeforeEach
     fun setUp() {
         orderGateway = mock()
-        customerGateway = mock()
         productGateway = mock()
         createPaymentInteract = mock()
-        orderCheckoutInteract = OrderCheckoutInteract(orderGateway, customerGateway, productGateway, createPaymentInteract)
+        orderCheckoutInteract = OrderCheckoutInteract(orderGateway, productGateway, createPaymentInteract)
     }
 
     @Test
@@ -47,16 +46,14 @@ class OrderCheckoutInteractTest {
         val product = Product(1L, "Burger", "Delicious", "image.png", 10, Category.MAIN)
         val orderItemRequest = OrderItemRequest(1L, 2, "Extra cheese", true)
         val checkoutRequest = CheckoutRequest("12345678901", listOf(orderItemRequest))
-        val customer = Customer(CPF("12345678901"), "John Doe", "john@example.com")
         val order = Order(1L, CPF("12345678901"), listOf(OrderItem(1L, 2, "Extra cheese", true)), OrderStatus.RECEIVED, LocalDateTime.now())
         val createPaymentResponse = CreatePaymentResponse(10, "AA", "123")
 
         whenever(productGateway.findById(1L)).thenReturn(product)
-        whenever(customerGateway.findByCpf("12345678901")).thenReturn(customer)
         whenever(orderGateway.save(any())).thenReturn(order)
         whenever(createPaymentInteract.createPayment(any())).thenReturn(createPaymentResponse)
 
-        val result = orderCheckoutInteract.checkout(checkoutRequest)
+        val result = orderCheckoutInteract.checkout(checkoutRequest, "12345678901")
 
         assertNotNull(result)
         assertEquals(order.id, result.orderId)
@@ -70,7 +67,7 @@ class OrderCheckoutInteractTest {
         whenever(productGateway.findById(1L)).thenReturn(null)
 
         assertThrows<ProductNotFoundException> {
-            orderCheckoutInteract.checkout(checkoutRequest)
+            orderCheckoutInteract.checkout(checkoutRequest, "12345678901")
         }
     }
 
@@ -86,7 +83,7 @@ class OrderCheckoutInteractTest {
         whenever(orderGateway.save(any())).thenReturn(order)
         whenever(createPaymentInteract.createPayment(any())).thenReturn(createPaymentResponse)
 
-        val result = orderCheckoutInteract.checkout(checkoutRequest)
+        val result = orderCheckoutInteract.checkout(checkoutRequest, null)
 
         assertNotNull(result)
         assertNotNull(result.orderId)

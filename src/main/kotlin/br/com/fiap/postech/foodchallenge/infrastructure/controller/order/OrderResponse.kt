@@ -1,6 +1,5 @@
 package br.com.fiap.postech.foodchallenge.infrastructure.controller.order
 
-import br.com.fiap.postech.foodchallenge.domain.entities.Payment
 import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
 import java.time.LocalDateTime
 

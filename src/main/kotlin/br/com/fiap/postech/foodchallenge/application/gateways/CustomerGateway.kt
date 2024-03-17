@@ -4,6 +4,4 @@ import br.com.fiap.postech.foodchallenge.domain.entities.Customer
 
 interface CustomerGateway {
     fun findByCpf(cpf: String): Customer?
-
-    fun create(customer: Customer): Customer
 }

@@ -37,6 +37,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.hypersistence:hypersistence-utils-hibernate-62:3.6.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+    implementation ("com.auth0:jwks-rsa:0.11.0")
+    implementation("com.auth0:java-jwt:4.0.0")
+    implementation("software.amazon.awssdk:cognitoidentityprovider:2.25.6")
+    implementation("com.amazonaws:aws-java-sdk-cognitoidentity:1.12.676")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
 }

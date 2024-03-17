@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-data class CreateCustomerRequest(
+data class IdentifyCustomerRequest(
     @field:NotBlank(message = "CPF cannot be blank")
     @field:Size(min = 11, max = 11, message = "CPF must be exactly 11 characters long")
     val cpf: String,

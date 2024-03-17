@@ -14,7 +14,7 @@ class OrderController(
 ) {
 
     @PostMapping("/checkout")
-    fun checkout(@RequestBody request: CheckoutRequest) = orderCheckoutInteract.checkout(request)
+    fun checkout(@RequestBody request: CheckoutRequest, @RequestAttribute("cpf") token: String?) = orderCheckoutInteract.checkout(request, token)
 
     @GetMapping
     fun listOrders(@RequestParam(required = false) status: String?) = listOrdersInteract.getOrders(status)

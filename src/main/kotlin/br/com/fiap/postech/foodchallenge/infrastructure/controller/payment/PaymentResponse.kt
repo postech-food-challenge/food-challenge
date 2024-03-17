@@ -1,6 +1,5 @@
 package br.com.fiap.postech.foodchallenge.infrastructure.controller.payment
 
-import br.com.fiap.postech.foodchallenge.domain.entities.Payment
 import br.com.fiap.postech.foodchallenge.domain.entities.order.Order
 
 data class PaymentResponse(
