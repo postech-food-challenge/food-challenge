@@ -6,18 +6,25 @@ on:
       - main
 
 jobs:
-  build-and-push:
-    name: Build and Push to ECR
+  build-and-deploy:
+    name: Build and Deploy to Eks
     runs-on: ubuntu-latest
+    environment: Deploy
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
+        with:
+          version: 'v1.24.0'
+        id: install
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -42,12 +49,10 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Deploy on eks
-        environment: Deploy
-        env:
-          EKS_NAME: ${{ secrets.EKS_NAME }}
-          EKS_REGION: ${{ secrets.ESK_REGION }}
-          EKS_CLUSTER_CONTEXT: ${{ secrets.EKS_CLUSTER_CONTEXT }}
-        run: |
-          aws eks --region $EKS_REGION update-kubeconfig --name $EKS_NAME
-          kubectl --context $EKS_CLUSTER_CONTEXT apply -f k8s/app
+      - name: Update kube config
+        run:
+          aws eks update-kubeconfig --name eks --region us-east-1
+
+      - name: Deploy on EKS
+        run:
+          kubectl apply -f k8s/app
