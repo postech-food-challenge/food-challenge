@@ -5,7 +5,7 @@ metadata:
   labels:
     app: food-challenge-configmap
 data:
-  DB_HOST: "rds.c5qc48480h18.us-east-1.rds.amazonaws.com"
+  DB_HOST: "rds.cj6wwwwse7s6.us-east-1.rds.amazonaws.com"
   DB_PORT: "5432"
   DB_USERNAME: "foodchallenge"
   DB_PASSWORD: "root1234"
