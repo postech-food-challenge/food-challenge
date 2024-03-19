@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: food-challenge
-          image: 975050174690.dkr.ecr.us-east-1.amazonaws.com/tech-challenge:latest
+          image: 381491902427.dkr.ecr.us-east-1.amazonaws.com/tech-challenge:latest
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
