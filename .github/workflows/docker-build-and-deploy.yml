@@ -27,6 +27,7 @@ jobs:
           aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -35,7 +36,7 @@ jobs:
       - name: Delete existing image tag (if exists)
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ secrets.IMAGE_TAG }}
         run: |
           aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=$IMAGE_TAG || true
@@ -51,8 +52,14 @@ jobs:
 
       - name: Update kube config
         run:
-          aws eks update-kubeconfig --name eks --region us-east-1
+          aws eks update-kubeconfig --name tech-challenge-cluster --region us-east-1
 
       - name: Deploy on EKS
-        run:
-          kubectl apply -f k8s/app
+        env:
+          DB_HOST: ${{ vars.DB_HOST }}
+          DB_PORT: ${{ vars.DB_PORT }}
+          DB_USERNAME: ${{ vars.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+        run: |
+          envsubst < k8s/app/configmap.yaml | kubectl apply -f k8s/app
