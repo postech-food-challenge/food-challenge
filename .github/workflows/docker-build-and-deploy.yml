@@ -60,6 +60,25 @@ jobs:
           DB_PORT: ${{ vars.DB_PORT }}
           DB_USERNAME: ${{ vars.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ vars.IMAGE_TAG }}
 
         run: |
-          envsubst < k8s/app/configmap.yaml | kubectl apply -f k8s/app
+          # Navigate to the directory containing the Kubernetes manifests
+          cd k8s/app
+
+          # Substitute environment variables in ConfigMap and apply it
+          envsubst < configmap.yaml | kubectl apply -f -
+
+          # Apply the Service (assuming no variables substitution is needed)
+          kubectl apply -f service.yaml
+
+          # Wait for the service to become available (if necessary)
+          # kubectl wait --for=condition=available --timeout=60s service/my-service
+
+          # Substitute environment variables in Deployment and apply it
+          envsubst < deployment.yaml | kubectl apply -f -
+
+          # Finally, apply the Horizontal Pod Autoscaler
+          kubectl apply -f hpa.yaml
